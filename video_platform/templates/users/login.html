@@ -1,0 +1,24 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <div>
+                {{ form.email.label }}
+                {{ form.email }}
+            </div>
+            <div>
+                {{ form.password.label }}
+                {{ form.password }}
+            </div>
+            <div>
+                {{ form.remember.label }}
+                {{ form.remember }}
+            </div>
+        </fieldset>
+        <div>
+            {{ form.submit }}
+        </div>
+    </form>
+{% endblock %}
