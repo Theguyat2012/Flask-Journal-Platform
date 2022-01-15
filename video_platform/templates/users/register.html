@@ -1,28 +1,33 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-    <form method="POST" novalidate>
-        {{ form.hidden_tag() }}
-        <fieldset>
+    <div class="login">
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>Register</legend>
+                <div class="login-text">
+                    {{ form.username }}
+                    {{ form.username.label }}
+                </div>
+                <div class="login-text">
+                    {{ form.email }}
+                    {{ form.email.label }}
+                </div>
+                <div class="login-text">
+                    {{ form.password }}
+                    {{ form.password.label }}
+                </div>
+                <div class="login-text">
+                    {{ form.confirm_password }}
+                    {{ form.confirm_password.label }}
+                </div>
+            </fieldset>
             <div>
-                {{ form.username.label }}
-                {{ form.username }}
+                {{ form.submit(class="login-submit") }}
             </div>
-            <div>
-                {{ form.email.label }}
-                {{ form.email }}
-            </div>
-            <div>
-                {{ form.password.label }}
-                {{ form.password }}
-            </div>
-            <div>
-                {{ form.confirm_password.label }}
-                {{ form.confirm_password }}
-            </div>
-        </fieldset>
-        <div>
-            {{ form.submit }}
-        </div>
-    </form>
+
+            <p class="sign-up">Have an account? <a href="{{ url_for('users.login') }}">Log in</a></p>
+        </form>
+    </div>
 {% endblock %}
