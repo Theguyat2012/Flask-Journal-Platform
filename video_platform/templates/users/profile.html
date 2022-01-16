@@ -1,0 +1,21 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>{{ current_user.username }}</h1>
+        <div>
+            <h2>Videos</h2>
+            {% for video in videos %}
+            <div class="video-jawn">
+                <div class="video-thumbnail">
+                    <!-- Add video thumbnail -->
+                </div>
+                <div class="video-info">
+                    <p>{{ video.title }}</p>
+                    <p>{{ video.date_posted }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

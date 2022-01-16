@@ -1,8 +1,9 @@
+import os
 from flask import Blueprint, redirect, url_for, render_template, request
 from flask_login import current_user
 from flask_wtf import form
-from video_platform import db
-import video_platform
+from werkzeug.utils import secure_filename
+from video_platform import db, app
 from video_platform.models import Video
 from video_platform.video.forms import VideoForm
 
@@ -17,6 +18,9 @@ def upload():
     form = VideoForm()
     if form.validate_on_submit():
         video = Video(title=form.title.data, description=form.description.data, file=form.video.data.filename, user_id=current_user.id)
+        filename = secure_filename(form.video.data.filename)
+        file = form.video.data
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         db.session.add(video)
         db.session.commit()
         print(video)

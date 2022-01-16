@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from video_platform import db
 from video_platform.models import User
@@ -40,3 +40,9 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('users.login'))
+
+@users.route('/users/<username>')
+def profile(username):
+    videos = User.query.filter_by(username=username).first().videos
+
+    return render_template('users/profile.html', videos=videos)
