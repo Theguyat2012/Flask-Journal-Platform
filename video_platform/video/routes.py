@@ -23,7 +23,11 @@ def upload():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         db.session.add(video)
         db.session.commit()
-        print(video)
         return redirect(url_for('video.upload'))
 
     return render_template('video/upload.html', form=form)
+
+@video.route('/video/<int:video_id>')
+def watch(video_id):
+    video = Video.query.filter_by(id=video_id).first()
+    return render_template('video/watch.html', video=video)
