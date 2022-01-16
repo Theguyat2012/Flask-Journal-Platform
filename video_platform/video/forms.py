@@ -8,5 +8,5 @@ from wtforms.validators import DataRequired
 class VideoForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     description = StringField('Description')
-    video = FileField('Video', validators=[FileAllowed('mp4'), DataRequired()])
+    video = FileField('Video')
     submit = SubmitField('Upload')
