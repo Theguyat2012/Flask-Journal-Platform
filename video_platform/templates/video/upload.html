@@ -1,24 +1,29 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-    <form method="POST" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <fieldset>
+    <div class="login">
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset>
+                <legend>Upload</legend>
+                <div class="login-text">
+                    {{ form.title }}
+                    <span></span>
+                    {{ form.title.label }}
+                </div>
+                <div class="login-text">
+                    {{ form.description }}
+                    <span></span>
+                    {{ form.description.label }}
+                </div>
+                <div>
+                    {{ form.video.label }}
+                    {{ form.video }}
+                </div>
+            </fieldset>
             <div>
-                {{ form.title.label }}
-                {{ form.title }}
+                {{ form.submit(class="login-submit") }}
             </div>
-            <div>
-                {{ form.description.label }}
-                {{ form.description }}
-            </div>
-            <div>
-                {{ form.video.label }}
-                {{ form.video }}
-            </div>
-        </fieldset>
-        <div>
-            {{ form.submit }}
-        </div>
-    </form>
+        </form>
+    </div>
 {% endblock %}
