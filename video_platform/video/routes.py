@@ -1,10 +1,7 @@
 import os
-import random
 from flask import Blueprint, redirect, url_for, render_template
 from flask_login import current_user
-from flask_wtf import form
 from werkzeug.utils import secure_filename
-from PIL import Image
 from video_platform import db, app
 from video_platform.models import Video
 from video_platform.video.forms import VideoForm
@@ -24,10 +21,7 @@ def upload():
         video_file = form.video.data
         video_file.save(os.path.join(app.config['UPLOAD_FOLDER'], video_filename))
 
-        # Create video thumbnail
-        thumbnail = ''
-
-        video = Video(title=form.title.data, description=form.description.data, video=video_filename, thumbnail=thumbnail, user_id=current_user.id)
+        video = Video(title=form.title.data, description=form.description.data, video=video_filename, user_id=current_user.id)
         db.session.add(video)
         db.session.commit()
 
@@ -38,4 +32,6 @@ def upload():
 @video.route('/video/<int:video_id>')
 def watch(video_id):
     video = Video.query.filter_by(id=video_id).first()
+    video.views += 1
+    db.session.commit()
     return render_template('video/watch.html', video=video)

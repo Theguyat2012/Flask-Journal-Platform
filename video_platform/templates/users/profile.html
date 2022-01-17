@@ -11,15 +11,19 @@
                 <h2>Videos</h2>
                 {% if videos|length > 0 %}
                     {% for video in videos %}
+                    <a class="video-link" href="{{ url_for('video.watch', video_id=video.id) }}">
                         <div class="video-jawn">
                             <div class="video-thumbnail">
-                                <!-- Add video thumbnail -->
+                                <video class="video-image">
+                                    <source src="{{ url_for('static', filename=video.video) }}"></source>
+                                </video>
                             </div>
                             <div class="video-info">
-                                <p>{{ video.title }}</p>
-                                <p>{{ video.date_posted }}</p>
+                                <b>{{ video.title }}</b>
+                                <h6>{{ video.views }} views</h6>
                             </div>
                         </div>
+                    </a>
                     {% endfor %}
                 {% else %}
                     <p style="text-align: center;">{{ user.username }} does not have any videos at the moment.</p>

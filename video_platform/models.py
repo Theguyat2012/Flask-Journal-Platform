@@ -20,6 +20,6 @@ class Video(db.Model):
     title = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255))
     video = db.Column(db.String(255), nullable=False)
-    thumbnail = db.Column(db.String(255), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    views = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

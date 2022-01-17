@@ -143,3 +143,36 @@ body {
     width: 100px;
     border-radius: 50%;
 }
+
+.video-link {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+}
+
+.video-link:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.video-link:active {
+    text-decoration: none;
+    color: black;
+}
+
+.video-link:visited {
+    text-decoration: none;
+    color: black;
+}
+
+.video-thumbnail {
+    width: 150px;
+    height: 100px;
+    text-align: center;
+    background-color: black;
+}
+
+.video-image {
+    height: 100%;
+    width: 100%;
+}

@@ -59,7 +59,7 @@ def edit(username):
                 current_user.username = username
                 current_user.email = form.email.data
 
-                if (form.image.data != None):
+                if form.image.data:
                     # TODO: Save as a random string
                     image_filename = secure_filename(form.image.data.filename)
                     image_file = form.image.data
