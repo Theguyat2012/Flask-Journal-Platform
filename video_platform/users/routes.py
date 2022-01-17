@@ -45,23 +45,32 @@ def logout():
 
 @users.route('/users/<username>')
 def profile(username):
+    user = User.query.filter_by(username=username).first()
     videos = User.query.filter_by(username=username).first().videos
-    return render_template('users/profile.html', videos=videos)
+    return render_template('users/profile.html', user=user, videos=videos)
 
 @users.route('/users/<username>/edit', methods=['GET', 'POST'])
 def edit(username):
-    form = EditForm()
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.email = form.email.data
+    if current_user.is_authenticated:
+        user = User.query.filter_by(username=username).first()
+        if current_user == user:
+            form = EditForm()
+            if form.validate_on_submit():
+                current_user.username = username
+                current_user.email = form.email.data
 
-        if (form.image.data != None):
-            # TODO: Save as a random string
-            image_filename = secure_filename(form.image.data.filename)
-            image_file = form.image.data
-            image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
-            current_user.image = form.image.data.filename
+                if (form.image.data != None):
+                    # TODO: Save as a random string
+                    image_filename = secure_filename(form.image.data.filename)
+                    image_file = form.image.data
+                    image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
+                    current_user.image = form.image.data.filename
 
-        db.session.commit()
+                db.session.commit()
+                return redirect(url_for('users.profile', user=user, username=current_user.username))
 
-    return render_template('users/update.html', form=form)
+            return render_template('users/update.html', user=user, form=form)
+        else:
+            return redirect(url_for('users.profile', user=user, username=username))
+    else:
+        return redirect(url_for('users.login'))

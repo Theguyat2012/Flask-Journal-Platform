@@ -4,8 +4,8 @@
     <div class="container">
         <div class="profile">
             <div class="profile-header">
-                <img src="{{ url_for('static', filename=current_user.image) }}" class="profile-picture" />
-                <h1>{{ current_user.username }}</h1>
+                <img src="{{ url_for('static', filename=user.image) }}" class="profile-picture" />
+                <h1>{{ user.username }}</h1>
             </div>
             <div>
                 <h2>Videos</h2>
@@ -22,7 +22,7 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p style="text-align: center;">{{ current_user.username }} does not have any videos at the moment.</p>
+                    <p style="text-align: center;">{{ user.username }} does not have any videos at the moment.</p>
                 {% endif %}
             </div>
         </div>
