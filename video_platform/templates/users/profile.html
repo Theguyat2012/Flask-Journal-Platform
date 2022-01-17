@@ -2,20 +2,29 @@
 
 {% block content %}
     <div class="container">
-        <h1>{{ current_user.username }}</h1>
-        <div>
-            <h2>Videos</h2>
-            {% for video in videos %}
-            <div class="video-jawn">
-                <div class="video-thumbnail">
-                    <!-- Add video thumbnail -->
-                </div>
-                <div class="video-info">
-                    <p>{{ video.title }}</p>
-                    <p>{{ video.date_posted }}</p>
-                </div>
+        <div class="profile">
+            <div class="profile-header">
+                <img src="{{ url_for('static', filename=current_user.image) }}" class="profile-picture" >
+                <h1>{{ current_user.username }}</h1>
             </div>
-            {% endfor %}
+            <div>
+                <h2>Videos</h2>
+                {% if videos|length > 0 %}
+                    {% for video in videos %}
+                        <div class="video-jawn">
+                            <div class="video-thumbnail">
+                                <!-- Add video thumbnail -->
+                            </div>
+                            <div class="video-info">
+                                <p>{{ video.title }}</p>
+                                <p>{{ video.date_posted }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align: center;">{{ current_user.username }} does not have any videos at the moment.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -1,8 +1,10 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-    <video width="320" height="240" controls>
-        <source src="{{ url_for('static', filename=video.file) }}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <div class="container">
+        <video controls>
+            <source src="{{ url_for('static', filename=video.video) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
 {% endblock %}

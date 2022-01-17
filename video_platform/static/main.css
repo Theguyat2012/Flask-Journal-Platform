@@ -116,3 +116,20 @@ body {
 .sign-up a:hover {
     text-decoration: underline;
 }
+
+.profile {
+    background-color: white;
+    margin: 30px;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.profile-header {
+    text-align: center;
+}
+
+.profile-picture {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}

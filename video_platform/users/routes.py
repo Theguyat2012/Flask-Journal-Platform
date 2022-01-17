@@ -14,7 +14,7 @@ def register():
 
     form = RegisterForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data, image="default.jpg")
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('main.index'))
@@ -44,5 +44,8 @@ def logout():
 @users.route('/users/<username>')
 def profile(username):
     videos = User.query.filter_by(username=username).first().videos
-
     return render_template('users/profile.html', videos=videos)
+
+@users.route('/users/<username>/update')
+def update(username):
+    return render_template('users/update.html')
