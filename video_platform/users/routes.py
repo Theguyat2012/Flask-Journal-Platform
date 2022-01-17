@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
-from video_platform import db
+from video_platform import app, db
 from video_platform.models import User
-from video_platform.users.forms import RegisterForm, LoginForm
+from video_platform.users.forms import RegisterForm, LoginForm, UpdateForm
 
 users = Blueprint('users', __name__)
 
@@ -48,4 +48,5 @@ def profile(username):
 
 @users.route('/users/<username>/update')
 def update(username):
-    return render_template('users/update.html')
+    form = UpdateForm()
+    return render_template('users/update.html', form=form)

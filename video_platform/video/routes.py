@@ -1,6 +1,6 @@
 import os
 import random
-from flask import Blueprint, redirect, url_for, render_template, request
+from flask import Blueprint, redirect, url_for, render_template
 from flask_login import current_user
 from flask_wtf import form
 from werkzeug.utils import secure_filename

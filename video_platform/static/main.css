@@ -117,6 +117,10 @@ body {
     text-decoration: underline;
 }
 
+.file-upload {
+    margin: 10px;
+}
+
 .profile {
     background-color: white;
     margin: 30px;
@@ -124,8 +128,19 @@ body {
     border-radius: 20px;
 }
 
+/* .profile-wrapper {
+    padding-right: 250px;
+    padding-left: 250px;
+} */
+
 .profile-header {
     text-align: center;
+}
+
+.profile-header .profile-name {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid silver;
 }
 
 .profile-picture {

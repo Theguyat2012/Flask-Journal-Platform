@@ -1,5 +1,37 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-    
+    <div class="container">
+        <div class="profile-wrapper">
+            <div class="profile">
+            <div class="profile-header">
+                <img src="{{ url_for('static', filename=current_user.image) }}" class="profile-picture" />
+                <h1 class="profile-name">{{ current_user.username }}</h1>
+            </div>
+            <div>
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <fieldset>
+                        <legend>Edit Profile</legend>
+                        <div class="login-text">
+                            {{ form.username(value=current_user.username) }}
+                            <span></span>
+                            {{ form.username.label }}
+                        </div>
+                        <div class="login-text">
+                            {{ form.email(value=current_user.email) }}
+                            <span></span>
+                            {{ form.email.label }}
+                        </div>
+                        <div class="file-upload">
+                            {{ form.image.label }}
+                            {{ form.image(value=url_for('static', filename=current_user.image)) }}
+                        </div>
+                    </fieldset>
+                    <div>
+                        {{ form.submit(class="login-submit") }}
+                    </div>
+                </form>
+            </div>
+        </div>
 {% endblock %}
