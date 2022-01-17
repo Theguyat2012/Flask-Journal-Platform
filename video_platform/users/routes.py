@@ -1,8 +1,10 @@
+import os
 from flask import Blueprint, render_template, redirect, url_for
 from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.utils import secure_filename
 from video_platform import app, db
 from video_platform.models import User
-from video_platform.users.forms import RegisterForm, LoginForm, UpdateForm
+from video_platform.users.forms import RegisterForm, LoginForm, EditForm
 
 users = Blueprint('users', __name__)
 
@@ -46,7 +48,20 @@ def profile(username):
     videos = User.query.filter_by(username=username).first().videos
     return render_template('users/profile.html', videos=videos)
 
-@users.route('/users/<username>/update')
-def update(username):
-    form = UpdateForm()
+@users.route('/users/<username>/edit', methods=['GET', 'POST'])
+def edit(username):
+    form = EditForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+
+        if (form.image.data != None):
+            # TODO: Save as a random string
+            image_filename = secure_filename(form.image.data.filename)
+            image_file = form.image.data
+            image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
+            current_user.image = form.image.data.filename
+
+        db.session.commit()
+
     return render_template('users/update.html', form=form)

@@ -19,6 +19,7 @@ def upload():
 
     form = VideoForm()
     if form.validate_on_submit():
+        # TODO: save as a random string
         video_filename = secure_filename(form.video.data.filename)
         video_file = form.video.data
         video_file.save(os.path.join(app.config['UPLOAD_FOLDER'], video_filename))

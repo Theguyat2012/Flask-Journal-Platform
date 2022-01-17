@@ -2,8 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <div class="profile-wrapper">
-            <div class="profile">
+        <div class="profile">
             <div class="profile-header">
                 <img src="{{ url_for('static', filename=current_user.image) }}" class="profile-picture" />
                 <h1 class="profile-name">{{ current_user.username }}</h1>
@@ -34,4 +33,5 @@
                 </form>
             </div>
         </div>
+    </div>
 {% endblock %}
