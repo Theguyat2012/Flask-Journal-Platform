@@ -1,5 +1,29 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-    <h1>Index</h1>
+    <div class="p-5 mb-4 bg-light">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Flask Video</h1>
+            <p class="col-md-8 fs-4">Welcome to Flask Video</p>
+        </div>
+    </div>
+    <div class="container">
+        {% if videos|length > 0 %}
+            {% for video in videos %}
+                <div class="card rounded-0" style="width: 15rem; display: inline-block;">
+                    <video style="background-color: black; height: 100px; width: 100%;">
+                        <source src="{{ url_for('static', filename=video.video) }}">
+                    </video>
+                    <div class="card-body">
+                        <h6 class="card-title">{{ video.title }}</h6>
+                        <p class="card-text">{{ video.views }} views</p>
+                        <p class="card-text">By: {{ video.author.username }}</p>
+                        <p class="card-text">{{ video.date_posted }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h6>No videos found :(</h6>
+        {% endif %}
+    </div>
 {% endblock %}
