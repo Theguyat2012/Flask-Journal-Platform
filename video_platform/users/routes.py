@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from video_platform import app, db
@@ -16,6 +16,7 @@ def register():
 
     form = RegisterForm()
     if form.validate_on_submit():
+        flash('Account registered!', 'success')
         user = User(username=form.username.data, email=form.email.data, password=form.password.data, image="default.jpg")
         db.session.add(user)
         db.session.commit()
@@ -33,6 +34,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.password == form.password.data:
             login_user(user)
+            flash("Logged in as " + current_user.username + "!", 'success')
             return redirect(url_for('main.index'))
 
     return render_template('users/login.html', form=form)
@@ -40,6 +42,7 @@ def login():
 @users.route('/logout')
 @login_required
 def logout():
+    flash("Logged out" + current_user.username + ".", 'danger')
     logout_user()
     return redirect(url_for('users.login'))
 

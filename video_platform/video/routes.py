@@ -25,7 +25,7 @@ def upload():
         db.session.add(video)
         db.session.commit()
 
-        return redirect(url_for('video.upload'))
+        return redirect(url_for('users.profile', username=current_user.username))
 
     return render_template('video/upload.html', form=form)
 

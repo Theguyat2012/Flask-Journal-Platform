@@ -1,27 +1,24 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-    <div class="p-5 mb-4 bg-light">
-        <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Flask Video</h1>
-            <p class="col-md-8 fs-4">Welcome to Flask Video</p>
-        </div>
-    </div>
     <div class="container">
         {% if videos|length > 0 %}
-            {% for video in videos %}
-                <div class="card rounded-0" style="width: 15rem; display: inline-block;">
-                    <video style="background-color: black; height: 100px; width: 100%;">
-                        <source src="{{ url_for('static', filename=video.video) }}">
-                    </video>
-                    <div class="card-body">
-                        <h6 class="card-title">{{ video.title }}</h6>
-                        <p class="card-text">{{ video.views }} views</p>
-                        <p class="card-text">By: {{ video.author.username }}</p>
-                        <p class="card-text">{{ video.date_posted }}</p>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for video in videos %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <video class="card-img-top">
+                                <source src="{{ url_for('static', filename=video.video) }}">
+                            </video>
+                            <div class="card-body">
+                                <h5>{{ video.title }}</h5>
+                                <p>{{ video.views }} views</p>
+                                <p>{{ video.date_posted }}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         {% else %}
             <h6>No videos found :(</h6>
         {% endif %}
