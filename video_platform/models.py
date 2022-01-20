@@ -24,9 +24,10 @@ class Video(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     views = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    comments = db.relationship('Comment', backref='author', lazy=True)
+    comments = db.relationship('Comment', backref='video', lazy=True)
 
 class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     video_id = db.Column(db.Integer, db.ForeignKey('video.id'), nullable=False)
