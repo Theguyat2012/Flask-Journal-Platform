@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-from video_platform.models import Video
+from journal_platform.models import Video
 
 main = Blueprint('main', __name__)
 

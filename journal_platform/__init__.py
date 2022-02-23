@@ -11,9 +11,9 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
 
-from video_platform.main.routes import main
-from video_platform.users.routes import users
-from video_platform.video.routes import video
+from journal_platform.main.routes import main
+from journal_platform.users.routes import users
+from journal_platform.video.routes import video
 app.register_blueprint(main)
 app.register_blueprint(users)
 app.register_blueprint(video)

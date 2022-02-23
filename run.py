@@ -1,4 +1,4 @@
-from video_platform import create_app
+from journal_platform import create_app
 
 app = create_app()
 

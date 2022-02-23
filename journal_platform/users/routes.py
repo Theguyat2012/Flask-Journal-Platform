@@ -2,9 +2,9 @@ import os
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
-from video_platform import app, db
-from video_platform.models import User
-from video_platform.users.forms import RegisterForm, LoginForm, EditForm
+from journal_platform import app, db
+from journal_platform.models import User
+from journal_platform.users.forms import RegisterForm, LoginForm, EditForm
 
 users = Blueprint('users', __name__)
 

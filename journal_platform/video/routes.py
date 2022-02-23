@@ -2,9 +2,9 @@ import os
 from flask import Blueprint, redirect, url_for, render_template
 from flask_login import current_user
 from werkzeug.utils import secure_filename
-from video_platform import db, app
-from video_platform.models import Video
-from video_platform.video.forms import VideoForm
+from journal_platform import db, app
+from journal_platform.models import Video
+from journal_platform.video.forms import VideoForm
 
 video = Blueprint('video', __name__)
 
