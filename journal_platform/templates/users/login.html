@@ -3,30 +3,26 @@
 {% block content %}
     <main>
         <div class="container">
-            <div class="row justify-content-center align-items-center min-vh-100-navbar">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">Login</div>
-                        <div class="card-body">
-                            <form method="POST" novalidate>
-                                {{ form.hidden_tag() }}
-                                <fieldset>
-                                    <div class="mb-3">
-                                        {{ form.email(placeholder=form.email.label.text, class="form-control") }}
-                                    </div>
-                                    <div class="mb-3">
-                                        {{ form.password(placeholder=form.password.label.text, class="form-control") }}
-                                    </div>
-                                </fieldset>
-                    
-                                <p class="sign-up">Need an account? <a href="{{ url_for('users.register') }}">Register</a></p>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-4 mt-5">
+                    <form method="POST" novalidate>
+                        {{ form.hidden_tag() }}
+                        <fieldset>
+                            <legend>Login</legend>
+                            <div class="mb-3">
+                                {{ form.email(placeholder=form.email.label.text, class="form-control") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.password(placeholder=form.password.label.text, class="form-control") }}
+                            </div>
+                        </fieldset>
+            
+                        <p class="sign-up">Need an account? <a href="{{ url_for('users.register') }}">Register</a></p>
 
-                                <div>
-                                    {{ form.submit(class="btn btn-primary") }}
-                                </div>
-                            </form>
+                        <div>
+                            {{ form.submit(class="btn btn-primary") }}
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
