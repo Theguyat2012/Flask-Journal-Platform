@@ -14,9 +14,11 @@ login_manager = LoginManager(app)
 from journal_platform.main.routes import main
 from journal_platform.users.routes import users
 from journal_platform.video.routes import video
+from journal_platform.articles.routes import articles
 app.register_blueprint(main)
 app.register_blueprint(users)
 app.register_blueprint(video)
+app.register_blueprint(articles)
 
 
 def create_app():

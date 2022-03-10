@@ -9,12 +9,13 @@ def load_user(user):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
+    username = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(255), nullable=False)
     videos = db.relationship('Video', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='author', lazy=True)
+    articles = db.relationship('Article', backref='author', lazy=True)
 
 class Video(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,4 +32,12 @@ class Comment(db.Model):
     text = db.Column(db.String(255), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     video_id = db.Column(db.Integer, db.ForeignKey('video.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    # TODO: Differentiate drafts from published articles somehow
+    title = db.Column(db.String(255), nullable=False)
+    content = db.Column(db.String(15000), nullable=True)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

@@ -20,7 +20,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=form.password.data, image="default.jpg")
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('main.index'))
+        return redirect(url_for("main.index"))
 
     return render_template('users/register.html', form=form)
 
@@ -42,7 +42,7 @@ def login():
 @users.route('/logout')
 @login_required
 def logout():
-    flash("Logged out" + current_user.username + ".", 'danger')
+    flash("Logged out " + current_user.username + ".", 'danger')
     logout_user()
     return redirect(url_for('users.login'))
 

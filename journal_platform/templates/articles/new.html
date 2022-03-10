@@ -1,0 +1,25 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+    <main>
+        <div class="container">
+            <form method="POST" class="mt-5" novalidate>
+                {{ form.hidden_tag() }}
+                <fieldset>
+                    <legend class="mb-3">New Article</legend>
+                    <div class="mb-3">
+                        {{ form.title(placeholder="Title", class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.content(placeholder="Content", class="form-control") }}
+                    </div>
+                </fieldset>
+
+                <div>
+                    {{ form.post(class="btn btn-primary") }}
+                    {{ form.draft(class="btn btn-secondary") }}
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}
