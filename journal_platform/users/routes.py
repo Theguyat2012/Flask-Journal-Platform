@@ -50,7 +50,7 @@ def logout():
 def profile(username):
     user = User.query.filter_by(username=username).first()
     videos = User.query.filter_by(username=username).first().videos
-    articles = Article.query.filter_by(user_id=user.id)
+    articles = Article.query.order_by(Article.date_posted.desc()).filter_by(user_id=user.id)
     return render_template('users/profile.html', user=user, videos=videos, articles=articles)
 
 @users.route('/users/<username>/edit', methods=['GET', 'POST'])

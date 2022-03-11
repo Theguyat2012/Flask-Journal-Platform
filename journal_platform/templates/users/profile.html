@@ -4,9 +4,9 @@
     <div class="container">
         <main class="mt-4">
             <div class="row">
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="card text-center">
-                        <div class="card-header"><h2 class="mb-0">{{ current_user.username }}</h2></div>
+                        <div class="card-header"><h2 class="mb-0">{{ user.username }}</h2></div>
                         <div class="card-body">
                             <div class="text-center">
                                 <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="100px" />
@@ -25,11 +25,22 @@
                         <div class="card-header text-center"><h4 class="mb-0">Articles</h4></div>
                         <div class="card-body">
                             {% if articles.all()|length > 0 %}
+                                <div class="row text-center border-bottom">
+                                    <div class="col-lg-10 border-end"><p class="mb-0">Title</p></div>
+                                    <div class="col"><p class="mb-0">Date Posted</p></div>
+                                </div>
                                 {% for article in articles %}
-                                    <span>{{ article.id }}. "<a class="mb-0" href="#">{{ article.title }}</a>" {{ article.date_posted }}</span>
+                                    <div class="row">
+                                        <div class="col-lg-10 border-end">
+                                            <span>{{ article.id }}. "<a class="mb-0" href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a>"</span>
+                                        </div>
+                                        <div class="col text-center">
+                                            <span>{{ article.date_posted.strftime('%b.%d.%Y') }}</span>
+                                        </div>
+                                    </div>
                                 {% endfor %}
                             {% else %}
-                                <p class="mb-0">No articles available.</p>
+                                <p class="mb-0">No articles found :(</p>
                             {% endif %}
                         </div>
                     </div>
