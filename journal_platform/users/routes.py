@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from journal_platform import app, db
-from journal_platform.models import User
+from journal_platform.models import User, Article
 from journal_platform.users.forms import RegisterForm, LoginForm, EditForm
 
 users = Blueprint('users', __name__)
@@ -50,7 +50,8 @@ def logout():
 def profile(username):
     user = User.query.filter_by(username=username).first()
     videos = User.query.filter_by(username=username).first().videos
-    return render_template('users/profile.html', user=user, videos=videos)
+    articles = Article.query.filter_by(user_id=user.id)
+    return render_template('users/profile.html', user=user, videos=videos, articles=articles)
 
 @users.route('/users/<username>/edit', methods=['GET', 'POST'])
 def edit(username):
@@ -72,7 +73,7 @@ def edit(username):
                 db.session.commit()
                 return redirect(url_for('users.profile', user=user, username=current_user.username))
 
-            return render_template('users/update.html', user=user, form=form)
+            return render_template('users/edit.html', user=user, form=form)
         else:
             return redirect(url_for('users.profile', user=user, username=username))
     else:

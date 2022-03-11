@@ -2,33 +2,39 @@
 
 {% block content %}
     <div class="container">
-        <div class="profile">
-            <div class="profile-header">
-                <img src="{{ url_for('static', filename=user.image) }}" class="profile-picture" />
-                <h1>{{ user.username }}</h1>
-            </div>
-            <div>
-                <h2>Videos</h2>
-                {% if videos|length > 0 %}
-                    {% for video in videos %}
-                    <a class="video-link" href="{{ url_for('video.watch', video_id=video.id) }}">
-                        <div class="video-jawn">
-                            <div class="video-thumbnail">
-                                <video class="video-image">
-                                    <source src="{{ url_for('static', filename=video.video) }}"></source>
-                                </video>
-                            </div>
-                            <div class="video-info">
-                                <b>{{ video.title }}</b>
-                                <h6>{{ video.views }} views</h6>
+        <main class="mt-4">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card text-center">
+                        <div class="card-header"><h2 class="mb-0">{{ current_user.username }}</h2></div>
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="100px" />
+                                <p class="mb-0">{{ articles.count() }}</p>
+                                <p class="mb-2">Articles</p>
+                                <p class="mb-0">0</p>
+                                <p class="mb-2">Followers</p>
+                                <p class="mb-0">0</p>
+                                <p class="mb-0">Following</p>
                             </div>
                         </div>
-                    </a>
-                    {% endfor %}
-                {% else %}
-                    <p style="text-align: center;">{{ user.username }} does not have any videos at the moment.</p>
-                {% endif %}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header text-center"><h4 class="mb-0">Articles</h4></div>
+                        <div class="card-body">
+                            {% if articles.all()|length > 0 %}
+                                {% for article in articles %}
+                                    <span>{{ article.id }}. "<a class="mb-0" href="#">{{ article.title }}</a>" {{ article.date_posted }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <p class="mb-0">No articles available.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 {% endblock %}
