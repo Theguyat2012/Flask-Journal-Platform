@@ -22,3 +22,6 @@ class EditForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     image = FileField('Profile Picture')
     submit = SubmitField('Update')
+
+class FollowForm(FlaskForm):
+    submit = SubmitField('Follow')

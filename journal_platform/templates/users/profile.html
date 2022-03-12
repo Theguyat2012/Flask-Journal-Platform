@@ -10,12 +10,33 @@
                         <div class="card-body">
                             <div class="text-center">
                                 <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="100px" />
-                                <p class="mb-0">{{ articles.count() }}</p>
-                                <p class="mb-2">Articles</p>
-                                <p class="mb-0">0</p>
-                                <p class="mb-2">Followers</p>
-                                <p class="mb-0">0</p>
-                                <p class="mb-0">Following</p>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <p class="mb-0">{{ articles.count() }}</p>
+                                        <p class="mb-0">Articles</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="mb-0">{{ user.followers.count() }}</p>
+                                        <p class="mb-0">Followers</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="mb-0">{{ user.followed.count() }}</p>
+                                        <p class="mb-0">Following</p>
+                                    </div>
+                                </div>
+                                {% if current_user.id != user.id %}
+                                    <div class="row text-center">
+                                        <div class="col">
+                                            <form action="" method="POST">
+                                                {% if not current_user.is_following(user) %}
+                                                    {{ follow_form.submit(class="btn-sm btn-primary") }}
+                                                {% else %}
+                                                {{ follow_form.submit(class="btn-sm btn-primary", value="Unfollow") }}
+                                                {% endif %}
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

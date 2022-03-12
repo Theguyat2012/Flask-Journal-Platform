@@ -1,10 +1,10 @@
 import os
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 from journal_platform import app, db
 from journal_platform.models import User, Article
-from journal_platform.users.forms import RegisterForm, LoginForm, EditForm
+from journal_platform.users.forms import RegisterForm, LoginForm, EditForm, FollowForm
 
 users = Blueprint('users', __name__)
 
@@ -46,12 +46,23 @@ def logout():
     logout_user()
     return redirect(url_for('users.login'))
 
-@users.route('/users/<username>')
+@users.route('/users/<username>', methods=['GET', 'POST'])
 def profile(username):
     user = User.query.filter_by(username=username).first()
     videos = User.query.filter_by(username=username).first().videos
     articles = Article.query.order_by(Article.date_posted.desc()).filter_by(user_id=user.id)
-    return render_template('users/profile.html', user=user, videos=videos, articles=articles)
+
+    follow_form = FollowForm()
+    if request.form.get('submit'):
+        if not current_user.is_following(user):
+            current_user.follow(user)
+            db.session.commit()
+        else:
+            current_user.unfollow(user)
+            db.session.commit()
+        return redirect(url_for('users.profile', username=username))
+
+    return render_template('users/profile.html', user=user, videos=videos, articles=articles, follow_form=follow_form)
 
 @users.route('/users/<username>/edit', methods=['GET', 'POST'])
 def edit(username):
