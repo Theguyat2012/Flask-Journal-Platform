@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     username = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
-    image = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.String(255), nullable=False, default="default.jpg")
     videos = db.relationship('Video', backref='author', lazy=True)
     comments = db.relationship('Comment', backref='author', lazy=True)
     articles = db.relationship('Article', backref='author', lazy=True)

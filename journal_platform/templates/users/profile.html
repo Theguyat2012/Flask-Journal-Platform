@@ -4,13 +4,13 @@
     <div class="container">
         <main class="mt-4">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="card text-center">
                         <div class="card-header"><h2 class="mb-0">{{ user.username }}</h2></div>
                         <div class="card-body">
                             <div class="text-center">
                                 <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="100px" />
-                                <div class="row mb-3">
+                                <div class="row mb-0">
                                     <div class="col">
                                         <p class="mb-0">{{ articles.count() }}</p>
                                         <p class="mb-0">Articles</p>
@@ -25,13 +25,13 @@
                                     </div>
                                 </div>
                                 {% if current_user.id != user.id %}
-                                    <div class="row text-center">
+                                    <div class="row text-center mt-3">
                                         <div class="col">
                                             <form action="" method="POST">
                                                 {% if not current_user.is_following(user) %}
                                                     {{ follow_form.submit(class="btn-sm btn-primary") }}
                                                 {% else %}
-                                                {{ follow_form.submit(class="btn-sm btn-primary", value="Unfollow") }}
+                                                    {{ follow_form.submit(class="btn-sm btn-primary", value="Unfollow") }}
                                                 {% endif %}
                                             </form>
                                         </div>
@@ -61,7 +61,7 @@
                                     </div>
                                 {% endfor %}
                             {% else %}
-                                <p class="mb-0">No articles found :(</p>
+                                <p class="mb-0">No articles found.</p>
                             {% endif %}
                         </div>
                     </div>

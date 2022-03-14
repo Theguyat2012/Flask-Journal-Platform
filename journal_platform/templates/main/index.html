@@ -6,9 +6,9 @@
             <div class="card-header"><h3 class="mb-0">Latest</h3></div>
             <div class="card-body">
                 <div class="row border-bottom text-center">
-                    <div class="col-sm-1">ID </div>
-                    <div class="col-sm-8 border-start">Title </div>
-                    <div class="col border-start">Author </div>
+                    <div class="col-sm-1">ID</div>
+                    <div class="col-sm-8 border-start">Title</div>
+                    <div class="col border-start">Author</div>
                     <div class="col border-start">Date Posted</div>
                 </div>
                 {% if articles|length > 0 %}
@@ -21,10 +21,32 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p class="mb-0">No articles found :(</p>
+                    <p class="mb-0">No articles found.</p>
                 {% endif %}
             </div>
         </div>
-        
+        <div class="card mt-5">
+            <div class="card-header"><h3 class="mb-0">Following</h3></div>
+            <div class="card-body">
+                <div class="row border-bottom text-center">
+                    <div class="col-sm-1">ID</div>
+                    <div class="col-sm-8 border-start">Title</div>
+                    <div class="col border-start">Author</div>
+                    <div class="col border-start">Date Posted</div>
+                </div>
+                {% if current_user.followed.count() > 0 %}
+                    {% for article in followed_articles %}
+                        <div class="row">
+                            <div class="col-sm-1" title="{{ article.id }}">{{ article.id }}</div>
+                            <div class="col-sm-8 border-start" title="{{ article.title }}"><a href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a></div>
+                            <div class="col border-start" title="{{ User.query.filter_by(id=article.user_id).first().username }}"><a href="{{ url_for('users.profile', username=User.query.filter_by(id=article.user_id).first().username) }}">{{ User.query.filter_by(id=article.user_id).first().username }}</a></div>
+                            <div class="col border-start text-center" title="{{ article.date_posted.strftime('%b.%d.%Y') }}">{{ article.date_posted.strftime('%b.%d.%Y') }}</div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="mb-0">No articles found.</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}
