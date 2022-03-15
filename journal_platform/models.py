@@ -32,6 +32,21 @@ class User(db.Model, UserMixin):
     def is_following(self, user):
         return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    # TODO: Differentiate drafts from published articles somehow
+    title = db.Column(db.String(255), nullable=False)
+    content = db.Column(db.String(15000), nullable=True)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+class ArticleComment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(2200), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
+
 class Video(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
@@ -41,18 +56,3 @@ class Video(db.Model):
     views = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('Comment', backref='video', lazy=True)
-
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(255), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    video_id = db.Column(db.Integer, db.ForeignKey('video.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
-class Article(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    # TODO: Differentiate drafts from published articles somehow
-    title = db.Column(db.String(255), nullable=False)
-    content = db.Column(db.String(15000), nullable=True)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

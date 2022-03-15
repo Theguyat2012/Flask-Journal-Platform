@@ -17,8 +17,4 @@ def index():
             followed_ids.append(followed.id)
         followed_articles = Article.query.filter(Article.user_id.in_(followed_ids)).order_by(Article.date_posted.desc())
 
-    print("Hellooooo")
-    print(current_user.followed)
-
-
     return render_template('main/index.html', articles=articles, User=User, Article=Article, followed_articles=followed_articles)
