@@ -2,15 +2,69 @@
 
 {% block content %}
     <main>
-        <div class="container">
-            <div class="card mt-3">
-                <div class="card-header text-center">
-                    <h3>{{ article.title }}</h3>
-                    <p class="mb-0">author: {{ user.username }}</p>
+        <div class="container p-0">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card mt-4">
+                        <div class="card-header text-center">
+                            <h2 class="mb-0">{{ article.title }}</h2>
+                        </div>
+                        <div class="card-body border-bottom">
+                            <p class="mb-0">{{ article.content }}</p>
+                        </div>
+                        <div class="container mb-3">
+                            <form method="POST">
+                                {{ form.hidden_tag() }}
+                                <legend>{{ article.comments|length }} Comments</legend>
+                                <fieldset>
+                                    <div class="mb-3">
+                                        {{ form.content(placeholder=form.content.label.text, class="form-control") }}
+                                    </div>
+                                </fieldset>
+
+                                <div>
+                                    {{ form.submit(class="btn-sm btn-primary") }}
+                                </div>
+                            </form>
+                            {% if article.comments|length > 0 %}
+                                <div class="mt-3">
+                                    {% for comment in article_comments %}
+                                        <div class="d-flex flex-start mb-3 pt-3 border-top">
+                                            <div class="me-3">
+                                                <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="50px" />
+                                            </div>
+                                            <div>
+                                                <div class="d-flex align-items-center">
+                                                    <h6 class="m-0">{{ User.query.filter_by(id=comment.user_id).first().username }}</h6>
+                                                </div>
+                                                <p class="m-0">{{ comment.date_posted }}</p>
+                                                <p class="m-0">{{ comment.content }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <p class="mb-0">{{ article.content }}</p>
-                </div>
+                <!-- <div class="col">
+                    <div class="card mt-4">
+                        <div class="card-header"><h3 class="mb-0">Author</h3></div>
+                        <div class="card-body">
+                            <div>
+                                <p class="mb-0">{{ user.username }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-4">
+                        <div class="card-header"><h4 class="mb-0">Other Works</h4></div>
+                        <div class="card-body"></div>
+                    </div>
+                    <div class="card mt-4">
+                        <div class="card-header"><h4 class="mb-0">Related Articles</h4></div>
+                        <div class="card-body"></div>
+                    </div>
+                </div> -->
             </div>
         </div>
     </main>

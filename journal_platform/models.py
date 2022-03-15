@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(255), nullable=False, default="default.jpg")
     videos = db.relationship('Video', backref='author', lazy=True)
-    comments = db.relationship('Comment', backref='author', lazy=True)
+    comments = db.relationship('ArticleComment', backref='author', lazy=True)
     articles = db.relationship('Article', backref='author', lazy=True)
     followed = db.relationship('User', secondary=followers, primaryjoin=(followers.c.follower_id == id), secondaryjoin=(followers.c.followed_id == id), backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
 
@@ -39,6 +39,7 @@ class Article(db.Model):
     content = db.Column(db.String(15000), nullable=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    comments = db.relationship('ArticleComment', backref='article', lazy=True)
 
 class ArticleComment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,4 +56,3 @@ class Video(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     views = db.Column(db.Integer, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    comments = db.relationship('Comment', backref='video', lazy=True)
