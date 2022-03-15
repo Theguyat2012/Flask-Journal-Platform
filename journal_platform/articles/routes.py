@@ -30,6 +30,8 @@ def new():
 def article(article_id):
     article = Article.query.filter_by(id=article_id).first()
     user = User.query.filter_by(id=article.user_id).first()
+    user_articles = Article.query.filter_by(user_id=user.id).order_by(Article.date_posted.desc())
+    other_articles = Article.query.order_by(Article.date_posted.desc())
     article_comments = ArticleComment.query.filter_by(article_id=article.id).order_by(ArticleComment.date_posted.desc())
     form = ArticleCommentForm()
 
@@ -40,4 +42,4 @@ def article(article_id):
         db.session.commit()
         return redirect(url_for("articles.article", article_id=article_id))
 
-    return render_template("articles/article.html", article=article, user=user, form=form, User=User, article_comments=article_comments)
+    return render_template("articles/article.html", article=article, user=user, user_articles=user_articles, other_articles=other_articles, form=form, User=User, article_comments=article_comments)

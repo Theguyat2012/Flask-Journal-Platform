@@ -12,7 +12,7 @@
                         <div class="card-body border-bottom">
                             <p class="mb-0">{{ article.content }}</p>
                         </div>
-                        <div class="container mb-3">
+                        <div class="container">
                             <form method="POST">
                                 {{ form.hidden_tag() }}
                                 <legend>{{ article.comments|length }} Comments</legend>
@@ -22,7 +22,7 @@
                                     </div>
                                 </fieldset>
 
-                                <div>
+                                <div class="mb-3">
                                     {{ form.submit(class="btn-sm btn-primary") }}
                                 </div>
                             </form>
@@ -31,7 +31,7 @@
                                     {% for comment in article_comments %}
                                         <div class="d-flex flex-start mb-3 pt-3 border-top">
                                             <div class="me-3">
-                                                <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="50px" />
+                                                <img src="{{ url_for('static', filename=User.query.filter_by(id=comment.user_id).first().image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="50px" />
                                             </div>
                                             <div>
                                                 <div class="d-flex align-items-center">
@@ -47,24 +47,47 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col">
+                <div class="col">
                     <div class="card mt-4">
                         <div class="card-header"><h3 class="mb-0">Author</h3></div>
                         <div class="card-body">
-                            <div>
-                                <p class="mb-0">{{ user.username }}</p>
+                            <div class="d-flex flex-start">
+                                <div class="mb-0 me-3">
+                                    <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid" width="75px" />
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">{{ user.username }}</h6>
+                                    <!-- Add user bio here -->
+                                    <p class="mb-0">user.bio</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="card mt-4">
-                        <div class="card-header"><h4 class="mb-0">Other Works</h4></div>
-                        <div class="card-body"></div>
+                        <div class="card-header"><h4 class="mb-0">Author's Other Works</h4></div>
+                        <div class="card-body">
+                            {% if user.articles|length > 0 %}
+                                {% for user_article in user_articles %}
+                                    {% if user_article.id != article.id %}
+                                        <a href="{{ url_for('articles.article', article_id=article.id) }}" class="m-0">{{ user_article.title }}</a>
+                                        <br />
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="card mt-4">
-                        <div class="card-header"><h4 class="mb-0">Related Articles</h4></div>
-                        <div class="card-body"></div>
+                        <div class="card-header"><h4 class="mb-0">More Articles</h4></div>
+                        <div class="card-body">
+                            {% for other_article in other_articles %}
+                                {% if other_article.user_id != user.id %}
+                                    <a href="{{ url_for('articles.article', article_id=other_article.id) }}" class="m-0">{{ other_article.title }}</a>
+                                    <br />
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </main>
