@@ -1,9 +1,13 @@
+import os
+from queue import Empty
 from flask import Blueprint, redirect, render_template, url_for, request
 from flask_login import current_user
-from journal_platform import db
-from journal_platform.models import Article, User, ArticleComment
+from numpy import empty
+from journal_platform import db, app
+from journal_platform.models import Article, User, ArticleComment, Photo
 from journal_platform.articles.forms import NewArticleForm
 from journal_platform.comments.forms import ArticleCommentForm
+from werkzeug.utils import secure_filename
 
 articles = Blueprint('articles', __name__)
 
@@ -16,8 +20,20 @@ def new():
     form = NewArticleForm()
 
     if request.form.get('post'):
-        article = Article(title=request.form['title'], content=request.form['content'], user_id=current_user.id)
+        article = Article(title=form.title.data, content=form.content.data, user_id=current_user.id)
         db.session.add(article)
+        db.session.flush()
+
+        # Allow multiple files to be uploaded
+        photos = request.files.getlist('photos')
+        if photos:
+            for photo in photos:
+                photo_filename = secure_filename(photo.filename)
+                photo.save(os.path.join(app.root_path, 'static', photo_filename))
+                new_photo = Photo(name=photo_filename, article_id=article.id)
+                db.session.add(new_photo)
+                db.session.flush()
+
         db.session.commit()
         return redirect(url_for("main.index"))
     elif request.form.get('draft'):
@@ -36,7 +52,6 @@ def article(article_id):
     form = ArticleCommentForm()
 
     if form.validate_on_submit():
-        print('HELLOOOO')
         article_comment = ArticleComment(content=form.content.data, user_id=current_user.id, article_id=article.id)
         db.session.add(article_comment)
         db.session.commit()

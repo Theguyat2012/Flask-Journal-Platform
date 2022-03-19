@@ -3,7 +3,7 @@
 {% block content %}
     <main>
         <div class="container">
-            <form method="POST" class="mt-5" novalidate>
+            <form method="POST" class="mt-5" enctype="multipart/form-data" novalidate>
                 {{ form.hidden_tag() }}
                 <fieldset>
                     <legend class="mb-3">New Article</legend>
@@ -12,6 +12,9 @@
                     </div>
                     <div class="mb-3">
                         {{ form.content(placeholder="Content", class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.photos(multiple="true", autocomplete="off") }}
                     </div>
                 </fieldset>
 

@@ -40,12 +40,18 @@ class Article(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('ArticleComment', backref='article', lazy=True)
+    photos = db.relationship('Photo', backref='article', lazy=True)
 
 class ArticleComment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(2200), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
+
+class Photo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
     article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
 
 class Video(db.Model):

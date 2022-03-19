@@ -10,6 +10,15 @@
                             <h2 class="mb-0">{{ article.title }}</h2>
                         </div>
                         <div class="card-body border-bottom">
+                            {% if article.photos is not none %}
+                                <div class="d-flex flex-row overflow-auto m-0 pb-0">
+                                    {% for photo in article.photos %}
+                                        <div class="vh-30 p-1">
+                                            <img src="{{ url_for('static', filename=photo.name) }}" class="w-auto h-100">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             <p class="mb-0">{{ article.content }}</p>
                         </div>
                         <div class="container">
