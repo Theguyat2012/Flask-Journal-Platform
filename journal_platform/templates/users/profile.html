@@ -52,10 +52,10 @@
                                 </div>
                                 {% for article in articles %}
                                     <div class="row">
-                                        <div class="col-lg-10 border-end">
-                                            <span>{{ article.id }}. "<a class="mb-0" href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a>"</span>
+                                        <div class="col-lg-10 border-end pt-2">
+                                            <span>{{ article.id }}. "<a href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a>"</span>
                                         </div>
-                                        <div class="col text-center">
+                                        <div class="col text-center pt-2">
                                             <span>{{ article.date_posted.strftime('%b.%d.%Y') }}</span>
                                         </div>
                                     </div>

@@ -1,3 +1,7 @@
 .vh-30 {
     height: 30vh;
 }
+
+.overflow-x-scroll {
+    overflow-x: scroll;
+}

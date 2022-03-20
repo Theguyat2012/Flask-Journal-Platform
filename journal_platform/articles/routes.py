@@ -4,7 +4,7 @@ from flask import Blueprint, redirect, render_template, url_for, request
 from flask_login import current_user
 from numpy import empty
 from journal_platform import db, app
-from journal_platform.models import Article, User, ArticleComment, Photo
+from journal_platform.models import Article, User, ArticleComment, Photo, Video
 from journal_platform.articles.forms import NewArticleForm
 from journal_platform.comments.forms import ArticleCommentForm
 from werkzeug.utils import secure_filename
@@ -24,7 +24,8 @@ def new():
         db.session.add(article)
         db.session.flush()
 
-        # Allow multiple files to be uploaded
+        # FIXME: photos and videos use the same code.
+
         photos = request.files.getlist('photos')
         if photos:
             for photo in photos:
@@ -32,6 +33,15 @@ def new():
                 photo.save(os.path.join(app.root_path, 'static', photo_filename))
                 new_photo = Photo(name=photo_filename, article_id=article.id)
                 db.session.add(new_photo)
+                db.session.flush()
+
+        videos = request.files.getlist('videos')
+        if videos:
+            for video in videos:
+                video_filename = secure_filename(video.filename)
+                video.save(os.path.join(app.root_path, 'static', video_filename))
+                new_video = Video(name=video_filename, article_id=article.id)
+                db.session.add(new_video)
                 db.session.flush()
 
         db.session.commit()

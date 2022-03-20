@@ -4,24 +4,44 @@
     <main>
         <div class="container p-0">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8 mb-3">
                     <div class="card mt-4">
                         <div class="card-header text-center">
                             <h2 class="mb-0">{{ article.title }}</h2>
                         </div>
                         <div class="card-body border-bottom">
+                            <p class="pb-3 border-bottom">{{ article.content }}</p>
                             {% if article.photos is not none %}
-                                <div class="d-flex flex-row overflow-auto m-0 pb-0">
-                                    {% for photo in article.photos %}
-                                        <div class="vh-30 p-1">
-                                            <img src="{{ url_for('static', filename=photo.name) }}" class="w-auto h-100">
-                                        </div>
-                                    {% endfor %}
+                                <div class="mb-3">
+                                    <h5>Photographs</h5>
+                                    <div class="d-flex flex-row overflow-x-scroll m-0 pb-0">
+                                        {% for photo in article.photos %}
+                                            <div class="vh-30 p-1">
+                                                <img src="{{ url_for('static', filename=photo.name) }}" class="w-auto h-100">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                             {% endif %}
-                            <p class="mb-0">{{ article.content }}</p>
+                            {% if article.videos is not none %}
+                                <div>
+                                    <h5>Footage</h5>
+                                    <div class="d-flex flex-row overflow-x-scroll m-0 pb-0">
+                                        {% for video in article.videos %}
+                                            <div class="vh-30 p-1">
+                                                <video class="w-auto h-100" controls>
+                                                    <source src="{{ url_for('static', filename=video.name) }}" type="video/mp4">
+                                                    <source src="{{ url_for('static', filename=video.name) }}" type="video/webm">
+                                                    <source src="{{ url_for('static', filename=video.name) }}" type="video/ogg">
+                                                    Your browser does not support this video type.
+                                                </video>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
-                        <div class="container">
+                        <div class="container mt-3">
                             <form method="POST">
                                 {{ form.hidden_tag() }}
                                 <legend>{{ article.comments|length }} Comments</legend>

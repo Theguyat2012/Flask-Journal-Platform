@@ -49,7 +49,6 @@ def logout():
 @users.route('/users/<username>', methods=['GET', 'POST'])
 def profile(username):
     user = User.query.filter_by(username=username).first()
-    videos = User.query.filter_by(username=username).first().videos
     articles = Article.query.order_by(Article.date_posted.desc()).filter_by(user_id=user.id)
 
     follow_form = FollowForm()
@@ -62,7 +61,7 @@ def profile(username):
             db.session.commit()
         return redirect(url_for('users.profile', username=username))
 
-    return render_template('users/profile.html', user=user, videos=videos, articles=articles, follow_form=follow_form)
+    return render_template('users/profile.html', user=user, articles=articles, follow_form=follow_form)
 
 @users.route('/users/<username>/edit', methods=['GET', 'POST'])
 def edit(username):

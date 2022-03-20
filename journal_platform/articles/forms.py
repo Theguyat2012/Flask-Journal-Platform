@@ -9,5 +9,6 @@ class NewArticleForm(FlaskForm):
     content = TextAreaField('Content')
     # TODO: Add image upload
     photos = FileField('Photos')
+    videos = FileField('Videos')
     post = SubmitField('Post')
     draft = SubmitField('Draft')
