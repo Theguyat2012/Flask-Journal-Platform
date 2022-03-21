@@ -21,3 +21,7 @@
 .circle {
     border-radius: 50%;
 }
+
+.border-none {
+    border: none;
+}
