@@ -1,7 +1,23 @@
+.vh-10 {
+    height: 10vh;
+}
+
+.vh-20 {
+    height: 20vh;
+}
+
 .vh-30 {
     height: 30vh;
 }
 
+.vw-10 {
+    height: 10vh;
+}
+
 .overflow-x-scroll {
     overflow-x: scroll;
+}
+
+.circle {
+    border-radius: 50%;
 }

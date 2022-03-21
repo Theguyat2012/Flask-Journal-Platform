@@ -1,4 +1,6 @@
 import os
+import string
+import random
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
@@ -70,15 +72,14 @@ def edit(username):
         if current_user == user:
             form = EditForm()
             if form.validate_on_submit():
-                current_user.username = username
+                current_user.username = form.username.data
                 current_user.email = form.email.data
 
                 if form.image.data:
-                    # TODO: Save as a random string
-                    image_filename = secure_filename(form.image.data.filename)
-                    image_file = form.image.data
-                    image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
-                    current_user.image = form.image.data.filename
+                    current_user.save_image(form.image)
+                else:
+                    os.remove(os.path.join(app.root_path, 'static', current_user.image))
+                    current_user.image = "default.jpg"
 
                 db.session.commit()
                 return redirect(url_for('users.profile', user=user, username=current_user.username))

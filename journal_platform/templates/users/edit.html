@@ -2,17 +2,14 @@
 
 {% block content %}
     <div class="container">
-        <div class="profile">
-            <div class="profile-header">
-                <img src="{{ url_for('static', filename=user.image) }}" class="profile-picture" />
-                <h1 class="profile-name">{{ user.username }}</h1>
-            </div>
-        </div>
         <div class="d-flex justify-content-center">
-            <div class="col-md-4">
+            <div class="col-md-4 mt-5 mb-5">
                 <div class="card">
                     <div class="card-header">Edit Profile</div>
                     <div class="card-body">
+                        <div class="text-center vh-20 mb-2">
+                            <img src="{{ url_for('static', filename=user.image) }}" class="rounded-circle profile-picture h-100" />
+                        </div>
                         <form method="POST" enctype="multipart/form-data">
                             {{ form.hidden_tag() }}
                             <fieldset>
@@ -24,7 +21,7 @@
                                 </div>
                                 <div class="mb-3">
                                     {{ form.image.label }}
-                                    {{ form.image(value=url_for('static', filename=user.image)) }}
+                                    {{ form.image }}
                                 </div>
                             </fieldset>
 

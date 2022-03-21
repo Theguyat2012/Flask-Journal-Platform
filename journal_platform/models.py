@@ -1,7 +1,9 @@
+import os, string, random
 from sqlalchemy import ForeignKey
-from journal_platform import db, login_manager
+from journal_platform import app, db, login_manager
 from flask_login import UserMixin
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 
 @login_manager.user_loader
@@ -16,9 +18,22 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(255), nullable=False, default="default.jpg")
-    comments = db.relationship('ArticleComment', backref='author', lazy=True)
     articles = db.relationship('Article', backref='author', lazy=True)
+    comments = db.relationship('ArticleComment', backref='author', lazy=True)
     followed = db.relationship('User', secondary=followers, primaryjoin=(followers.c.follower_id == id), secondaryjoin=(followers.c.followed_id == id), backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+
+    def save_image(self, form_image):
+        image_file = form_image.data
+        image_file_extension = form_image.data.filename.split('.')[1]
+        image_filename = secure_filename(''.join(random.choices(string.ascii_letters + string.digits, k = 64)) + '.' + image_file_extension)
+
+        if (os.path.exists(os.path.join(app.root_path, 'static', image_filename))):
+            self.save_image(form_image)
+        else:
+            image_file.save(os.path.join(app.root_path, 'static', image_filename))
+            if self.image != "default.jpg":
+                os.remove(os.path.join(app.root_path, 'static', self.image))
+            self.image = image_filename
 
     def follow(self, user):
         if not self.is_following(user):

@@ -9,7 +9,7 @@
                         <div class="card-header"><h2 class="mb-0">{{ user.username }}</h2></div>
                         <div class="card-body">
                             <div class="text-center">
-                                <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="100px" />
+                                <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="circle mb-3 vh-10 vw-10" />
                                 <div class="row mb-0">
                                     <div class="col">
                                         <p class="mb-0">{{ articles.count() }}</p>
@@ -53,7 +53,7 @@
                                 {% for article in articles %}
                                     <div class="row">
                                         <div class="col-lg-10 border-end pt-2">
-                                            <span>{{ article.id }}. "<a href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a>"</span>
+                                            <span class="align-middle">{{ article.id }}. "<a href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a>"</span>
                                         </div>
                                         <div class="col text-center pt-2">
                                             <span>{{ article.date_posted.strftime('%b.%d.%Y') }}</span>
