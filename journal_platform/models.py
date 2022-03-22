@@ -57,6 +57,15 @@ class Article(db.Model):
     photos = db.relationship('Photo', backref='article', lazy=True)
     videos = db.relationship('Video', backref='article', lazy=True)
 
+    def save_multiple_files(self, form_object, object_class, article_id):
+        for object in form_object.data:
+            filename = secure_filename(object.filename)
+            if filename:
+                object.save(os.path.join(app.root_path, 'static', filename))
+                new_object = object_class(name=filename, article_id=article_id)
+                db.session.add(new_object)
+                db.session.flush()
+
 
 class ArticleComment(db.Model):
     id = db.Column(db.Integer, primary_key=True)

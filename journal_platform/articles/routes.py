@@ -1,8 +1,6 @@
 import os
-from queue import Empty
 from flask import Blueprint, redirect, render_template, url_for, request
 from flask_login import current_user
-from numpy import empty
 from journal_platform import db, app
 from journal_platform.models import Article, User, ArticleComment, Photo, Video
 from journal_platform.articles.forms import NewArticleForm
@@ -24,25 +22,8 @@ def new():
         db.session.add(article)
         db.session.flush()
 
-        # FIXME: photos and videos use the same code.
-
-        photos = form.photos.data
-        for photo in photos:
-            photo_filename = secure_filename(photo.filename)
-            if photo_filename:
-                photo.save(os.path.join(app.root_path, 'static', photo_filename))
-                new_photo = Photo(name=photo_filename, article_id=article.id)
-                db.session.add(new_photo)
-                db.session.flush()
-
-        videos = form.videos.data
-        for video in videos:
-            video_filename = secure_filename(video.filename)
-            if video_filename:
-                video.save(os.path.join(app.root_path, 'static', video_filename))
-                new_video = Video(name=video_filename, article_id=article.id)
-                db.session.add(new_video)
-                db.session.flush()
+        article.save_multiple_files(form.photos, Photo, article.id)
+        article.save_multiple_files(form.videos, Video, article.id)
 
         db.session.commit()
         return redirect(url_for("main.index"))
