@@ -26,19 +26,19 @@ def new():
 
         # FIXME: photos and videos use the same code.
 
-        photos = request.files.getlist('photos')
-        if photos:
-            for photo in photos:
-                photo_filename = secure_filename(photo.filename)
+        photos = form.photos.data
+        for photo in photos:
+            photo_filename = secure_filename(photo.filename)
+            if photo_filename:
                 photo.save(os.path.join(app.root_path, 'static', photo_filename))
                 new_photo = Photo(name=photo_filename, article_id=article.id)
                 db.session.add(new_photo)
                 db.session.flush()
 
-        videos = request.files.getlist('videos')
-        if videos:
-            for video in videos:
-                video_filename = secure_filename(video.filename)
+        videos = form.videos.data
+        for video in videos:
+            video_filename = secure_filename(video.filename)
+            if video_filename:
                 video.save(os.path.join(app.root_path, 'static', video_filename))
                 new_video = Video(name=video_filename, article_id=article.id)
                 db.session.add(new_video)

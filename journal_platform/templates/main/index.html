@@ -5,17 +5,17 @@
         <div class="card mt-5">
             <div class="card-header"><h3 class="mb-0">Latest</h3></div>
             <div class="card-body">
-                <div class="row border-bottom text-center">
-                    <div class="col-sm-8">Title</div>
-                    <div class="col border-start">Author</div>
-                    <div class="col border-start">Date Posted</div>
+                <div class="row border-bottom">
+                    <div class="col-sm-7">Title</div>
+                    <div class="col-sm-3 border-start">Author</div>
+                    <div class="col-sm-2 border-start">Date Posted (UTC Time)</div>
                 </div>
                 {% if articles|length > 0 %}
                     {% for article in articles %}
                         <div class="row">
-                            <div class="col-sm-8 pt-2" title="{{ article.title }}"><a href="{{ url_for('articles.article', article_id=article.id) }}" class="align-middle">{{ article.title }}</a></div>
-                            <div class="col border-start pt-2" title="{{ User.query.filter_by(id=article.user_id).first().username }}"><a href="{{ url_for('users.profile', username=User.query.filter_by(id=article.user_id).first().username) }}" class="align-middle">{{ User.query.filter_by(id=article.user_id).first().username }}</a></div>
-                            <div class="col border-start text-center pt-2" title="{{ article.date_posted.strftime('%b.%d.%Y') }}">{{ article.date_posted.strftime('%b.%d.%Y') }}</div>
+                            <div class="col-sm-7" title="{{ article.title }}"><a href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a></div>
+                            <div class="col-sm-3 border-start" title="{{ User.query.filter_by(id=article.user_id).first().username }}"><a href="{{ url_for('users.profile', username=User.query.filter_by(id=article.user_id).first().username) }}">{{ User.query.filter_by(id=article.user_id).first().username }}</a></div>
+                            <div class="col-sm-2 border-start" title="{{ article.date_posted.strftime('%b.%d.%Y - %H:%M:%S') }}">{{ article.date_posted.strftime('%b.%d.%Y ~ %H:%M:%S') }}</div>
                         </div>
                     {% endfor %}
                 {% else %}
@@ -23,28 +23,29 @@
                 {% endif %}
             </div>
         </div>
+
         {% if current_user.is_authenticated %}
             <div class="card mt-5">
                 <div class="card-header"><h3 class="mb-0">Following</h3></div>
                 <div class="card-body">
-                    <div class="row border-bottom text-center">
-                        <div class="col-sm-8">Title</div>
-                        <div class="col border-start">Author</div>
-                        <div class="col border-start">Date Posted</div>
+                    <div class="row border-bottom">
+                        <div class="col-sm-7">Title</div>
+                        <div class="col-sm-3 border-start">Author</div>
+                        <div class="col-sm-2 border-start">Date Posted (UTC Time)</div>
                     </div>
-                        {% if current_user.followed.count() > 0 %}
-                            {% for article in followed_articles %}
-                                <div class="row">
-                                    <div class="col-sm-8" title="{{ article.title }}"><a href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a></div>
-                                    <div class="col border-start" title="{{ User.query.filter_by(id=article.user_id).first().username }}"><a href="{{ url_for('users.profile', username=User.query.filter_by(id=article.user_id).first().username) }}">{{ User.query.filter_by(id=article.user_id).first().username }}</a></div>
-                                    <div class="col border-start text-center" title="{{ article.date_posted.strftime('%b.%d.%Y') }}">{{ article.date_posted.strftime('%b.%d.%Y') }}</div>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <p class="mb-0 mt-3">No articles found.</p>
-                        {% endif %}
+                    {% if current_user.followed.count() > 0 %}
+                        {% for article in followed_articles %}
+                            <div class="row">
+                                <div class="col-sm-7" title="{{ article.title }}"><a href="{{ url_for('articles.article', article_id=article.id) }}">{{ article.title }}</a></div>
+                                <div class="col-sm-3 border-start" title="{{ User.query.filter_by(id=article.user_id).first().username }}"><a href="{{ url_for('users.profile', username=User.query.filter_by(id=article.user_id).first().username) }}">{{ User.query.filter_by(id=article.user_id).first().username }}</a></div>
+                                <div class="col-sm-2 border-start" title="{{ article.date_posted.strftime('%b.%d.%Y - %H:%M:%S') }}">{{ article.date_posted.strftime('%b.%d.%Y ~ %H:%M:%S') }}</div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="mb-0 mt-3">No articles found.</p>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
