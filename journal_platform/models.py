@@ -57,12 +57,12 @@ class Article(db.Model):
     photos = db.relationship('Photo', backref='article', lazy=True)
     videos = db.relationship('Video', backref='article', lazy=True)
 
-    def save_multiple_files(self, form_object, object_class, article_id):
+    def save_multiple_files(self, form_object, object_class):
         for object in form_object.data:
             filename = secure_filename(object.filename)
             if filename:
-                object.save(os.path.join(app.root_path, 'static', filename))
-                new_object = object_class(name=filename, article_id=article_id)
+                object.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                new_object = object_class(name=filename, article_id=self.id)
                 db.session.add(new_object)
                 db.session.flush()
 

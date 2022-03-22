@@ -5,7 +5,6 @@ from journal_platform import db, app
 from journal_platform.models import Article, User, ArticleComment, Photo, Video
 from journal_platform.articles.forms import NewArticleForm
 from journal_platform.comments.forms import ArticleCommentForm
-from werkzeug.utils import secure_filename
 
 articles = Blueprint('articles', __name__)
 
@@ -17,19 +16,21 @@ def new():
 
     form = NewArticleForm()
 
-    if request.form.get('post'):
-        article = Article(title=form.title.data, content=form.content.data, user_id=current_user.id)
-        db.session.add(article)
-        db.session.flush()
+    if form.validate_on_submit():
+        if request.form.get('post'):
+            article = Article(title=form.title.data, content=form.content.data, user_id=current_user.id)
+            db.session.add(article)
+            db.session.flush()
 
-        article.save_multiple_files(form.photos, Photo, article.id)
-        article.save_multiple_files(form.videos, Video, article.id)
+            article.save_multiple_files(form.photos, Photo)
+            article.save_multiple_files(form.videos, Video)
 
-        db.session.commit()
-        return redirect(url_for("main.index"))
-    elif request.form.get('draft'):
-        # TODO: save article to drafts
-        return redirect(url_for("articles.new"))
+            db.session.commit()
+
+            return redirect(url_for("main.index"))
+        elif request.form.get('draft'):
+            # TODO: save article to drafts
+            return redirect(url_for("articles.new"))
 
     return render_template("articles/new.html", form=form)
 

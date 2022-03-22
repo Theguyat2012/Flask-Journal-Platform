@@ -1,7 +1,6 @@
 import os
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
-from werkzeug.utils import secure_filename
 from journal_platform import app, db
 from journal_platform.models import User, Article
 from journal_platform.users.forms import RegisterForm, LoginForm, EditForm, FollowForm
@@ -17,7 +16,7 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         flash('Account registered!', 'success')
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data, image="default.jpg")
+        user = User(username=form.username.data, email=form.email.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
         return redirect(url_for("users.login"))

@@ -14,10 +14,14 @@
                         {{ form.content(placeholder="Content", class="form-control") }}
                     </div>
                     <div class="mb-3">
+                        {{ form.photos.label }}
                         {{ form.photos(autocomplete="off") }}
+                        <span>{{ ', '.join(form.photos.errors) }}</span>
                     </div>
                     <div class="mb-3">
+                        {{ form.videos.label }}
                         {{ form.videos(autocomplete="off") }}
+                        <span>{{ ', '.join(form.videos.errors) }}</span>
                     </div>
                 </fieldset>
 
