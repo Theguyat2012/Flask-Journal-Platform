@@ -7,13 +7,16 @@ from journal_platform.models import Chat, Message
 chats = Blueprint('chats', __name__)
 
 
+@socketio.on('message')
+def handle_message(message):
+    send(message, broadcast=True)
+
 @socketio.on("send_message")
 def send_message(json):
     print("hello")
     print(json)
     print(json['message'])
     print(json['chat_id'])
-    send(json['message'])
     message = Message(content=json['message'], user_id=current_user.id, chat_id=json['chat_id'])
     db.session.add(message)
     db.session.commit()
@@ -25,7 +28,6 @@ def chat_list():
 
 @chats.route('/chat/<int:chat_id>')
 def chat(chat_id):
-    # TODO: load chat messages
     chat = Chat.query.filter_by(id=chat_id).first()
     messages = chat.messages
     chat_users = chat.chat_users
