@@ -1,7 +1,6 @@
-import os
 from flask import Blueprint, redirect, render_template, url_for, request
 from flask_login import current_user
-from journal_platform import db, app
+from journal_platform import db
 from journal_platform.models import Article, User, ArticleComment, Photo, Video
 from journal_platform.articles.forms import NewArticleForm
 from journal_platform.comments.forms import ArticleCommentForm

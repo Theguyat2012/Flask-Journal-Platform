@@ -1,6 +1,7 @@
-from journal_platform import create_app
+from socket import socket
+from journal_platform import create_app, socketio
 
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)

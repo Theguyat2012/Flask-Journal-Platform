@@ -11,6 +11,7 @@ def load_user(user):
     return User.query.get(user)
 
 followers = db.Table('followers', db.Column('follower_id', db.Integer, db.ForeignKey('user.id')), db.Column('followed_id', db.Integer, db.ForeignKey('user.id')))
+chat_users = db.Table('chat_users', db.Column('user_id', db.ForeignKey('user.id'), primary_key=True), db.Column('chat_id', db.Integer, db.ForeignKey('chat.id'), primary_key=True))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,6 +22,7 @@ class User(db.Model, UserMixin):
     articles = db.relationship('Article', backref='author', lazy=True)
     comments = db.relationship('ArticleComment', backref='author', lazy=True)
     followed = db.relationship('User', secondary=followers, primaryjoin=(followers.c.follower_id == id), secondaryjoin=(followers.c.followed_id == id), backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+    messages = db.relationship('Message', backref='author', lazy=True)
 
     def save_image(self, form_image):
         image_file = form_image.data
@@ -83,3 +85,14 @@ class Video(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
     article_id = db.Column(db.Integer, db.ForeignKey('article.id'), nullable=False)
+
+class Chat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    messages = db.relationship('Message', backref='chat', lazy=True)
+    chat_users = db.relationship('User', secondary=chat_users, lazy='dynamic', backref=db.backref('chats', lazy='dynamic'))
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(2200), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'), nullable=False)

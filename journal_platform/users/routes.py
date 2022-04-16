@@ -2,8 +2,9 @@ import os
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from journal_platform import app, db
-from journal_platform.models import User, Article
-from journal_platform.users.forms import RegisterForm, LoginForm, EditForm, FollowForm
+from journal_platform.models import User, Article, Chat
+from journal_platform.users.forms import RegisterForm, LoginForm, EditForm, FollowForm, UnfollowForm
+from journal_platform.chats.forms import ChatForm
 
 users = Blueprint('users', __name__)
 
@@ -51,16 +52,36 @@ def profile(username):
     articles = Article.query.order_by(Article.date_posted.desc()).filter_by(user_id=user.id)
 
     follow_form = FollowForm()
-    if request.form.get('submit'):
-        if not current_user.is_following(user):
+    unfollow_form = UnfollowForm()
+    chat_form = ChatForm()
+
+    # if request.form.get('submit'):
+    #     if not current_user.is_following(user):
+    #         current_user.follow(user)
+    #         db.session.commit()
+    #     else:
+    #         current_user.unfollow(user)
+    #         db.session.commit()
+    #     return redirect(url_for('users.profile', username=username))
+
+    if request.method == "POST":
+        # return request.form
+        submit = request.form['submit']
+        if submit == chat_form.submit.label.text:
+            chat = Chat()
+            chat.chat_users.append(current_user)
+            chat.chat_users.append(user)
+            db.session.add(chat)
+            db.session.commit()
+        elif not current_user.is_following(user) and submit == follow_form.submit.label.text:
             current_user.follow(user)
             db.session.commit()
-        else:
+        elif current_user.is_following(user) and submit == unfollow_form.submit.label.text:
             current_user.unfollow(user)
             db.session.commit()
-        return redirect(url_for('users.profile', username=username))
+        return redirect(url_for('users.profile', username=user.username))
 
-    return render_template('users/profile.html', user=user, articles=articles, follow_form=follow_form)
+    return render_template('users/profile.html', user=user, articles=articles, follow_form=follow_form, unfollow_form=unfollow_form, chat_form=chat_form)
 
 @users.route('/users/<username>/edit', methods=['GET', 'POST'])
 def edit(username):

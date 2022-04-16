@@ -1,0 +1,9 @@
+{% extends 'layouts/layout.html' %}
+
+{% block content %}
+<ul>
+    {% for chat in chat_list %}
+    <li><a href="{{ url_for('chats.chat', chat_id=chat.id) }}">{{ chat.id }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

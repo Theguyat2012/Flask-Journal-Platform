@@ -1,0 +1,46 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+    <div class="container">
+        {% for user in chat_users %}
+            {% if user.id != current_user.id %}
+            <h1>{{ user.username }}</h1>
+            {% endif %}
+        {% endfor %}
+        <div class="col" id="messages">
+            {% for message in messages %}
+            <div class="row">
+                <p>{{ message.content }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <input type="text" id="myMessage">
+        <button id="sendbutton">Send</button>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" charset="utf-8">
+    var socket = io();
+    // socket.on('connect', function() {
+    //     alert("a");
+    // });
+
+    socket.on('message', function(message) {
+        var messages = document.getElementById('messages');
+        var newRow = document.createElement('div');
+        newRow.setAttribute('class', 'row');
+        var newP = document.createElement('p');
+        newP.innerHTML = message;
+        newRow.appendChild(newP);
+        messages.appendChild(newRow);
+    })
+
+    document.getElementById("sendbutton").addEventListener("click", function() {
+        var message = document.getElementById("myMessage").value;
+        document.getElementById("myMessage").value = "";
+        socket.emit('send_message', {'message': message, 'chat_id': '{{ chat.id }}'});
+        socket.send(message);
+    });
+</script>
+{% endblock %}

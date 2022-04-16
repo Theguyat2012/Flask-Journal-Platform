@@ -31,8 +31,9 @@
                                                 {% if not current_user.is_following(user) %}
                                                     {{ follow_form.submit(class="btn-sm btn-primary") }}
                                                 {% else %}
-                                                    {{ follow_form.submit(class="btn-sm btn-primary", value="Unfollow") }}
+                                                    {{ unfollow_form.submit(class="btn-sm btn-primary") }}
                                                 {% endif %}
+                                                {{ chat_form.submit(class="btn-sm btm-secondary") }}
                                             </form>
                                         </div>
                                     </div>

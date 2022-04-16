@@ -25,3 +25,6 @@ class EditForm(FlaskForm):
 
 class FollowForm(FlaskForm):
     submit = SubmitField('Follow')
+
+class UnfollowForm(FlaskForm):
+    submit = SubmitField('Unfollow')
