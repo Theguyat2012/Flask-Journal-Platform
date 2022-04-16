@@ -4,14 +4,20 @@
     <div class="container">
         {% for user in chat_users %}
             {% if user.id != current_user.id %}
-            <h1>{{ user.username }}</h1>
+                <h1>{{ user.username }}</h1>
             {% endif %}
         {% endfor %}
         <div class="col" id="messages">
             {% for message in messages %}
-            <div class="row">
-                <p>{{ message.content }}</p>
-            </div>
+                {% if current_user.id == message.user_id %}
+                    <div class="row ms-auto w-50">
+                        <p>{{ message.content }}</p>
+                    </div>
+                {% else %}
+                    <div class="row me-auto w-50">
+                        <p>{{ message.content }}</p>
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
         <input type="text" id="myMessage">
@@ -26,21 +32,29 @@
     //     alert("a");
     // });
 
-    socket.on('message', function(message) {
+    socket.on('message', function(json) {
+        document.getElementById("myMessage").value = "";
+
         var messages = document.getElementById('messages');
+
         var newRow = document.createElement('div');
-        newRow.setAttribute('class', 'row');
+        if ("{{ current_user.id }}" == json['user_id']) {
+            newRow.setAttribute('class', 'row ms-auto w-50');
+        } else {
+            newRow.setAttribute('class', 'row me-auto w-50');
+        }
+
         var newP = document.createElement('p');
-        newP.innerHTML = message;
+        newP.innerHTML = json['message'];
+
         newRow.appendChild(newP);
         messages.appendChild(newRow);
-    })
+    });
 
     document.getElementById("sendbutton").addEventListener("click", function() {
-        var message = document.getElementById("myMessage").value;
-        document.getElementById("myMessage").value = "";
-        socket.emit('send_message', {'message': message, 'chat_id': '{{ chat.id }}'});
-        socket.send(message);
+        var json = {'message': document.getElementById("myMessage").value, 'user_id': '{{ current_user.id }}', 'chat_id': '{{ chat.id }}'};
+        socket.emit('send_message', json);
+        socket.send(json);
     });
 </script>
 {% endblock %}
