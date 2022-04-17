@@ -68,13 +68,14 @@ def profile(username):
         # return request.form
         submit = request.form['submit']
         if submit == chat_form.submit.label.text:
+            # TODO: Create new chat between the two users if none exists
+            current_user_chats = Chat.query.filter(Chat.chat_users.any(id=current_user.id))
+            for chat in current_user_chats:
+                if chat.chat_users.count() == 2 and user in chat.chat_users:
+                    return redirect(url_for('chats.chat', chat_id=chat.id))
             chat = Chat()
             chat.chat_users.append(current_user)
             chat.chat_users.append(user)
-            # TODO: Create new chat between the two users if none exists
-            # current_users_chats = Chat.query.filter_by(user_id=current_user.id)
-            # if current_users_chats:
-            #     if current_users_chats
             db.session.add(chat)
             db.session.commit()
         elif not current_user.is_following(user) and submit == follow_form.submit.label.text:

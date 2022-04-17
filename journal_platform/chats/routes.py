@@ -28,7 +28,6 @@ def list():
 
 @chats.route('/chat/<int:chat_id>')
 def chat(chat_id):
-    # FIXME: Rework the individual chat page
     if current_user.is_authenticated:
         chat = Chat.query.filter_by(id=chat_id).first()
         if chat is not None and current_user in chat.chat_users:
