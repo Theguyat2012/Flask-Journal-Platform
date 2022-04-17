@@ -10,8 +10,12 @@
     height: 30vh;
 }
 
-.vw-10 {
+/* .vw-10 {
     height: 10vh;
+} */
+
+.mh-70 {
+    max-height: 70vh;
 }
 
 .overflow-x-scroll {
