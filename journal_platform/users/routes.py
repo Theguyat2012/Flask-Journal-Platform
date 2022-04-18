@@ -78,6 +78,7 @@ def profile(username):
             chat.chat_users.append(user)
             db.session.add(chat)
             db.session.commit()
+            return redirect(url_for('chats.chat', chat_id=chat.id))
         elif not current_user.is_following(user) and submit == follow_form.submit.label.text:
             current_user.follow(user)
             db.session.commit()
