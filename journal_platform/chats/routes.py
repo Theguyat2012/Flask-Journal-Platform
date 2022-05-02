@@ -18,7 +18,7 @@ def send_message(json):
     db.session.commit()
 
 @chats.route('/chat')
-def list():
+def chats_list():
     # FIXME: Rework the list of chats
     if current_user.is_authenticated:
         chat_list = Chat.query.filter(Chat.chat_users.any(id=current_user.id))
@@ -34,6 +34,6 @@ def chat(chat_id):
             messages = chat.messages
             chat_users = chat.chat_users
             return render_template('chats/chat.html', chat=chat, messages=messages, chat_users=chat_users)
-        return redirect(url_for('chats.list'))
+        return redirect(url_for('chats.chats_list'))
 
     return redirect(url_for('main.index'))

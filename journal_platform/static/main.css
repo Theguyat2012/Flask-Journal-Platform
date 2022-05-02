@@ -18,6 +18,10 @@
     max-height: 70vh;
 }
 
+.w-10 {
+    width: 10vw;
+}
+
 .overflow-x-scroll {
     overflow-x: scroll;
 }
