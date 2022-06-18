@@ -19,6 +19,13 @@
                                 <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="circle mb-3 vh-10 wvh-10" />
                                 <div class="row mb-0">
                                     <div class="col">
+                                        {% if user.bio != None %}
+                                            <p class="text-start">{{ user.bio }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row mb-0">
+                                    <div class="col">
                                         <p class="mb-0">{{ articles.count() }}</p>
                                         <p class="mb-0">Articles</p>
                                     </div>

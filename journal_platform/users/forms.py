@@ -21,6 +21,7 @@ class EditForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=255)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     image = FileField('Profile Picture')
+    bio = StringField('Bio')
     submit = SubmitField('Update')
 
 class FollowForm(FlaskForm):

@@ -14,24 +14,24 @@
                             {{ form.hidden_tag() }}
                             <fieldset>
                                 <div class="mb-3">
-                                    {{ form.username(value=user.username, class="form-control") }}
+                                    {{ form.username(placeholder=form.username.label.text, value=user.username, class="form-control") }}
                                 </div>
                                 <div class="mb-3">
-                                    {{ form.email(value=user.email, class="form-control") }}
+                                    {{ form.email(placeholder=form.email.label.text, value=user.email, class="form-control") }}
                                 </div>
                                 <div class="mb-3">
                                     {{ form.image.label }}
-                                    {{ form.image }}
+                                    {{ form.image  }}
+                                    {{ form.image.data  }}
                                 </div>
                                 <div class="mb-3">
-                                    {% if user.bio != 'None' %}
-                                        {{ form.email(placeholder='Bio', class="form-control") }}
+                                    {% if user.bio == None %}
+                                        {{ form.bio(placeholder=form.bio.label.text, class="form-control") }}
                                     {% else %}
-                                        {{ form.email(value=user.bio, class="form-control") }}
+                                        {{ form.bio(placeholder=form.bio.label.text, value=user.bio, class="form-control") }}
                                     {% endif %}
                                 </div>
                             </fieldset>
-
                             <div>
                                 {{ form.submit(class="btn btn-primary") }}
                             </div>

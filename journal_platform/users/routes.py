@@ -98,11 +98,14 @@ def edit(username):
             if form.validate_on_submit():
                 current_user.username = form.username.data
                 current_user.email = form.email.data
+                current_user.bio = form.bio.data
 
                 if form.image.data:
                     current_user.save_image(form.image)
                 else:
-                    os.remove(os.path.join(app.root_path, 'static', current_user.image))
+                    if current_user.image != "default.jpg":
+                        os.remove(os.path.join(app.root_path, 'static', current_user.image))
+
                     current_user.image = "default.jpg"
 
                 db.session.commit()
