@@ -5,11 +5,18 @@
         <main class="mt-4">
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card text-center">
-                        <div class="card-header"><h2 class="mb-0">{{ user.username }}</h2></div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="text-center d-inline align-middle">{{ user.username }}</h2>
+                            {% if current_user.id == user.id %}
+                                <form action="{{ url_for('users.edit', username=current_user.username) }}" class="float-end">
+                                    <input type="submit" value="Edit" class="btn btn-secondary"/>
+                                </form>
+                            {% endif %}
+                        </div>
                         <div class="card-body">
                             <div class="text-center">
-                                <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="circle mb-3 vh-10 vw-10" />
+                                <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="circle mb-3 vh-10 wvh-10" />
                                 <div class="row mb-0">
                                     <div class="col">
                                         <p class="mb-0">{{ articles.count() }}</p>
@@ -64,6 +71,20 @@
                             {% else %}
                                 <p class="mb-0">No articles found.</p>
                             {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="d-inline">
+                                Links
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            No available links.
                         </div>
                     </div>
                 </div>

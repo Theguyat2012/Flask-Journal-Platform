@@ -64,7 +64,7 @@
                                     {% for comment in article_comments %}
                                         <div class="d-flex flex-start mb-3 pt-3 border-top">
                                             <div class="me-3">
-                                                <img src="{{ url_for('static', filename=User.query.filter_by(id=comment.user_id).first().image) }}" alt="avatar" class="rounded-circle img-fluid mb-3" width="50px" />
+                                                <img src="{{ url_for('static', filename=User.query.filter_by(id=comment.user_id).first().image) }}" alt="avatar" class="rounded-circle mb-3 vh-10 wvh-10" />
                                             </div>
                                             <div>
                                                 <div class="d-flex align-items-center">
@@ -86,7 +86,7 @@
                         <div class="card-body">
                             <div class="d-flex flex-start">
                                 <div class="mb-0 me-3">
-                                    <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle img-fluid" width="75px" />
+                                    <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="rounded-circle vh-10 wvh-10"/>
                                 </div>
                                 <div>
                                     <h6 class="mb-0"><a href="{{ url_for('users.profile', username=user.username) }}">{{ user.username }}</a></h6>

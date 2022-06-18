@@ -14,7 +14,7 @@
                                 <a href="{{ url_for('chats.chat', chat_id=chat.id) }}" class="text-decoration-none">
                                     {% for user in chat.chat_users %}
                                         {% if user.id != current_user.id %}
-                                            <div class="d-inline-block" style="height: 7vw; width: 7vw;">
+                                            <div class="d-inline-block vh-10 wvh-10">
                                                 <img class="h-100 w-100 rounded-circle" src="{{ url_for('static', filename=user.image) }}">
                                             </div>
                                             {{ user.username }}

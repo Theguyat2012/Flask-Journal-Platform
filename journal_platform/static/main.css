@@ -1,3 +1,4 @@
+/* height */
 .vh-10 {
     height: 10vh;
 }
@@ -10,22 +11,21 @@
     height: 30vh;
 }
 
-/* .vw-10 {
-    height: 10vh;
-} */
-
-.mh-70 {
-    max-height: 70vh;
+/* width using vh */
+.wvh-10 {
+    width: 10vh;
 }
 
-.w-10 {
-    width: 10vw;
+.wvh-20 {
+    width: 20vh;
 }
 
+/* overflow */
 .overflow-x-scroll {
     overflow-x: scroll;
 }
 
+/* border */
 .circle {
     border-radius: 50%;
 }

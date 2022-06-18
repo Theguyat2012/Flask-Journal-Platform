@@ -14,7 +14,7 @@
                 <div class="pt-3 mh-70 overflow-auto" id="messages">
                     {% for message in messages %}
                         {% if current_user.id == message.user_id %}
-                            <div class="w-50 p-2 ms-auto">
+                            <div class="w-75 p-2 ms-auto">
                                 <div class="d-flex flex-row-reverse text-break text-white">
                                     <div class="d-inline bg-primary rounded-3 p-2 mb-0">
                                         {{ message.content }}
@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                         {% else %}
-                            <div class="w-50 p-2 me-auto">
+                            <div class="w-75 p-2 me-auto">
                                 <div class="d-flex flex-row text-break text-white">
                                     <div class="d-inline bg-dark rounded-3 p-2 mb-0">
                                         {{ message.content }}
@@ -57,11 +57,11 @@
             var newWrap = document.createElement('div');
             var newP = document.createElement('p');
             if ("{{ current_user.id }}" == json['user_id']) {
-                newRow.setAttribute('class', 'w-50 p-2 ms-auto');
+                newRow.setAttribute('class', 'w-75 p-2 ms-auto');
                 newWrap.setAttribute('class', 'd-flex flex-row-reverse text-break text-white');
                 newP.setAttribute('class', 'd-inline bg-primary rounded-3 p-2 mb-0');
             } else {
-                newRow.setAttribute('class', 'w-50 p-2 me-auto');
+                newRow.setAttribute('class', 'w-75 p-2 me-auto');
                 newWrap.setAttribute('class', 'd-flex flex-row text-break text-white');
                 newP.setAttribute('class', 'd-inline bg-dark rounded-3 p-2 mb-0');
             }

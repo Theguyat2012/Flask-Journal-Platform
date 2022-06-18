@@ -19,10 +19,12 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String(255), nullable=False, default="default.jpg")
+    bio = db.Column(db.String(255), nullable=True)
     articles = db.relationship('Article', backref='author', lazy=True)
     comments = db.relationship('ArticleComment', backref='author', lazy=True)
     followed = db.relationship('User', secondary=followers, primaryjoin=(followers.c.follower_id == id), secondaryjoin=(followers.c.followed_id == id), backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
     messages = db.relationship('Message', backref='author', lazy=True)
+    links = db.relationship('Link', backref='author', lazy=True)
 
     def save_image(self, form_image):
         image_file = form_image.data
@@ -97,3 +99,9 @@ class Message(db.Model):
     # TODO: Add when the message was created
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'), nullable=False)
+
+class Link(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    reference = db.Column(db.String(511), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
