@@ -44,10 +44,7 @@
 {% block script %}
     <script type="text/javascript" charset="utf-8">
         var socket = io();
-        // socket.on('connect', function() {
-        //     alert("a");
-        // });
-
+        
         socket.on('message', function(json) {
             document.getElementById("myMessage").value = "";
 

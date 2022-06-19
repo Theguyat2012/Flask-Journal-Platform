@@ -2,8 +2,8 @@ import os
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from journal_platform import app, db
-from journal_platform.models import User, Article, Chat
-from journal_platform.users.forms import RegisterForm, LoginForm, EditForm, FollowForm, UnfollowForm
+from journal_platform.models import User, Article, Chat, Link
+from journal_platform.users.forms import RegisterForm, LoginForm, EditForm, LinksForm, FollowForm, UnfollowForm
 from journal_platform.chats.forms import ChatForm
 
 users = Blueprint('users', __name__)
@@ -116,3 +116,27 @@ def edit(username):
             return redirect(url_for('users.profile', user=user, username=username))
     else:
         return redirect(url_for('users.login'))
+
+@users.route('/users/<username>/links', methods=['GET', 'POST'])
+def links(username):
+    if current_user.is_authenticated:
+        user = User.query.filter_by(username=username).first()
+
+        if current_user.id == user.id:
+            form = LinksForm()
+            if form.validate_on_submit():
+                link = Link(title=form.title.data, url=form.url.data, user_id=user.id)
+                db.session.add(link)
+                db.session.commit()
+                return redirect(url_for('users.links', user=user, form=form, username=username))
+
+        return render_template('users/links.html', user=user, form=form)
+    else:
+        flash('You do not have access to that link.', 'danger')
+        return redirect(url_for('main.index'))
+
+@users.route('/users/<username>/remove_link/<int:link_id>', methods=['POST', 'DELETE'])
+def remove_link(link_id, username):
+    link = Link.query.filter_by(id=link_id).delete()
+    db.session.commit()
+    return redirect(url_for('users.links', username=username))

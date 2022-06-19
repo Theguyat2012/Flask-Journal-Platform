@@ -1,0 +1,64 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="main mt-4 d-flex justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="m-0">Your links</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <h4>Title</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>URL</h4>
+                        </div>
+                    </div>
+                    {% for link in user.links %}
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-control">
+                                    {{ link.title }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-control">
+                                    {{ link.url }}
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <form action="#" class="d-inline">
+                                    <input type="submit" value="Edit" class="btn btn-sm btn-secondary"/>
+                                </form>
+                                <form onsubmit="return confirm('Are you sure you want to remove {{link.title}}?');" method="post" action="{{ url_for('users.remove_link', link_id=link.id, username=user.username) }}" class="d-inline">
+                                    <input type="submit" value="Remove" class="btn btn-sm btn-danger"/>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <fieldset class="list-group-item mb-3">
+                            <legend>New Link</legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {{ form.title(placeholder=form.title.label.text, class="form-control") }}
+                                </div>
+                                <div class="col-md-8">
+                                    {{ form.url(placeholder=form.url.label.text, class="form-control") }}
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div>
+                            {{ form.submit(class="btn btn-primary") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

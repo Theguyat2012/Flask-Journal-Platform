@@ -17,13 +17,13 @@
                         <div class="card-body">
                             <div class="text-center">
                                 <img src="{{ url_for('static', filename=user.image) }}" alt="avatar" class="circle mb-3 vh-10 wvh-10" />
-                                <div class="row mb-0">
-                                    <div class="col">
-                                        {% if user.bio != None %}
+                                {% if user.bio %}
+                                    <div class="row">
+                                        <div class="col">
                                             <p class="text-start">{{ user.bio }}</p>
-                                        {% endif %}
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                                 <div class="row mb-0">
                                     <div class="col">
                                         <p class="mb-0">{{ articles.count() }}</p>
@@ -58,7 +58,14 @@
                 </div>
                 <div class="col">
                     <div class="card">
-                        <div class="card-header text-center"><h4 class="mb-0">Articles</h4></div>
+                        <div class="card-header text-center">
+                            <h4 class="mb-0 d-inline">Articles</h4>
+                            {% if current_user.id == user.id %}
+                                <form action="{{ url_for('articles.new', username=current_user.username) }}" class="float-end">
+                                    <input type="submit" value="New" class="btn btn-sm btn-success"/>
+                                </form>
+                            {% endif %}
+                        </div>
                         <div class="card-body">
                             {% if articles.all()|length > 0 %}
                                 <div class="row text-center border-bottom">
@@ -86,12 +93,29 @@
                 <div class="col-lg-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="d-inline">
-                                Links
-                            </h5>
+                            <h5 class="d-inline align-middle">Links</h5>
+                            {% if current_user.id == user.id %}
+                                <form action="{{ url_for('users.links', username=current_user.username) }}" class="float-end">
+                                    {% if current_user.links|length == 0 %}
+                                        <input type="submit" value="Add" class="btn btn-sm btn-primary"/>
+                                    {% else %}
+                                        <input type="submit" value="Edit" class="btn btn-sm btn-primary"/>
+                                    {% endif %}
+                                </form>
+                            {% endif %}
                         </div>
-                        <div class="card-body">
-                            No available links.
+                        <div class="card-body" id="divLinks">
+                            {% if user.links|length == 0 %}
+                                <p class="m-0 p-0" id="linksEmpty">No available links.</p>
+                            {% else %}
+                                <ul class="m-0 p-0 list-unstyled">
+                                    {% for link in user.links %}
+                                        <li>
+                                            {{ link.url }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
