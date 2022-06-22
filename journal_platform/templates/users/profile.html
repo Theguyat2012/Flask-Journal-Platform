@@ -108,10 +108,10 @@
                             {% if user.links|length == 0 %}
                                 <p class="m-0 p-0" id="linksEmpty">No available links.</p>
                             {% else %}
-                                <ul class="m-0 p-0 list-unstyled">
+                                <ul class="m-0 p-0 list-group list-unstyled text-center">
                                     {% for link in user.links %}
                                         <li>
-                                            {{ link.url }}
+                                            <a href="{{ link.url }}" title="{{ link.url }}" target="_blank" class="list-group-item">{{ link.title }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>

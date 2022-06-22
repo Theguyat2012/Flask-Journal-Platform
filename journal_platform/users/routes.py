@@ -137,6 +137,6 @@ def links(username):
 
 @users.route('/users/<username>/remove_link/<int:link_id>', methods=['POST', 'DELETE'])
 def remove_link(link_id, username):
-    link = Link.query.filter_by(id=link_id).delete()
+    Link.query.filter_by(id=link_id).delete()
     db.session.commit()
     return redirect(url_for('users.links', username=username))
