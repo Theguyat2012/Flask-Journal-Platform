@@ -11,7 +11,7 @@
                 <div class="card-body">
                     {% if user.links|length > 0 %}
                         <div class="row text-center">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <h4>Title</h4>
                             </div>
                             <div class="col-md-6">
@@ -20,21 +20,25 @@
                         </div>
                         {% for link in user.links %}
                             <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <div class="form-control">
-                                        {{ link.title }}
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-control">
-                                        {{ link.url }}
-                                    </div>
+                                <div class="col">
+                                    <form method="POST" onsubmit="return confirm('Are you sure you want to update {{link.title}}?');">
+                                        {{ form.hidden_tag() }}
+                                        {{ update_link.id(value=link.id, class="d-none") }}
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                {{ update_link.title(placeholder=update_link.title.label.text, class="form-control", value=link.title) }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ update_link.url(placeholder=update_link.url.label.text, class="form-control", value=link.url) }}
+                                            </div>
+                                            <div class="col-md-2">
+                                                {{ update_link.update(class="btn btn-sm btn-primary btn-warning") }}
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="col-md-2">
-                                    <form action="#" class="d-inline">
-                                        <input type="submit" value="Edit" class="btn btn-sm btn-secondary"/>
-                                    </form>
-                                    <form onsubmit="return confirm('Are you sure you want to remove {{link.title}}?');" method="post" action="{{ url_for('users.remove_link', link_id=link.id, username=user.username) }}" class="d-inline">
+                                    <form onsubmit="return confirm('Are you sure you want to remove {{link.title}}?');" method="POST" action="{{ url_for('users.remove_link', link_id=link.id, username=user.username) }}">
                                         <input type="submit" value="Remove" class="btn btn-sm btn-danger"/>
                                     </form>
                                 </div>

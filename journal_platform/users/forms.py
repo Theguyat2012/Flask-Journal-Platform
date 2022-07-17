@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 
@@ -25,9 +25,15 @@ class EditForm(FlaskForm):
     submit = SubmitField('Update')
 
 class LinksForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    url = StringField('URL', validators=[DataRequired()])
+    title = StringField('Title')
+    url = StringField('URL')
     submit = SubmitField('Save')
+
+class LinkUpdateForm(FlaskForm):
+    id = IntegerField()
+    title = StringField('Title')
+    url = StringField('URL')
+    update = SubmitField('Update')
 
 class FollowForm(FlaskForm):
     submit = SubmitField('Follow')

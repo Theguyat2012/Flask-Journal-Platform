@@ -1,9 +1,10 @@
 import os
+from turtle import update
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from journal_platform import app, db
 from journal_platform.models import User, Article, Chat, Link
-from journal_platform.users.forms import RegisterForm, LoginForm, EditForm, LinksForm, FollowForm, UnfollowForm
+from journal_platform.users.forms import RegisterForm, LoginForm, EditForm, LinksForm, LinkUpdateForm, FollowForm, UnfollowForm
 from journal_platform.chats.forms import ChatForm
 
 users = Blueprint('users', __name__)
@@ -117,20 +118,28 @@ def edit(username):
     else:
         return redirect(url_for('users.login'))
 
-@users.route('/users/<username>/links', methods=['GET', 'POST'])
+@users.route('/users/<username>/links', methods=['GET', 'POST', 'PUT'])
 def links(username):
     if current_user.is_authenticated:
         user = User.query.filter_by(username=username).first()
 
         if current_user.id == user.id:
             form = LinksForm()
-            if form.validate_on_submit():
-                link = Link(title=form.title.data, url=form.url.data, user_id=user.id)
-                db.session.add(link)
-                db.session.commit()
-                return redirect(url_for('users.links', user=user, form=form, username=username))
+            update_link = LinkUpdateForm()
+            if form.submit.data and form.validate():
+                if form.title.data != "" and form.url.data != "":
+                    link = Link(title=form.title.data, url=form.url.data, user_id=user.id)
+                    db.session.add(link)
+                    db.session.commit()
+                    return redirect(url_for('users.links', username=username))
 
-        return render_template('users/links.html', user=user, form=form)
+            if update_link.update.data and update_link.validate():
+                link = Link.query.filter_by(id=update_link.id.data).first()
+                link.title = update_link.title.data
+                link.url = update_link.url.data
+                db.session.commit()
+                return redirect(url_for('users.links', username=username))
+        return render_template('users/links.html', user=user, form=form, update_link=update_link)
     else:
         flash('You do not have access to that link.', 'danger')
         return redirect(url_for('main.index'))

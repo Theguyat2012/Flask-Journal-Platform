@@ -70,7 +70,6 @@ class Article(db.Model):
                 db.session.add(new_object)
                 db.session.flush()
 
-
 class ArticleComment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(2200), nullable=False)
